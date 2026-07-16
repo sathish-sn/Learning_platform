@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Angular 17 Architecture &amp; Masterclass Textbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --primary: #e02424;
+  --primary-dark: #b81d1d;
+  --dark: #0f172a;
+  --blue: #1e3a8a;
+  --text: #334155;
+  --text-light: #64748b;
+  --bg-light: #f8fafc;
+  --code-bg: #0f172a;
+  --code-border: #1e293b;
+  --border: #e2e8f0;
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  
+  /* Syntax Highlighting */
+  --kw: #cba6f7;
+  --str: #a6e3a1;
+  --num: #fab387;
+  --cmt: #6c7086;
+  --fn: #89b4fa;
+  --cls: #f38ba8;
+  --op: #89dceb;
+  --var: #eed49f;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); background: #ffffff; line-height: 1.8; -webkit-font-smoothing: antialiased; }
+
+/* Cover Page */
+.cover {
+  background: radial-gradient(circle at 10% 20%, rgb(15, 23, 42) 0%, rgb(224, 36, 36) 100%);
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  padding: 80px 40px; page-break-after: always; color: white;
+}
+.ang-logo {
+  width: 120px; height: 120px; background: white;
+  border-radius: 24px; display: flex; align-items: center;
+  justify-content: center; margin: 0 auto 32px;
+  box-shadow: 0 25px 50px -12px rgba(224,36,36,0.4);
+}
+.ang-logo span { font-size: 64px; font-weight: 800; color: var(--primary); font-family: 'Plus Jakarta Sans', sans-serif; }
+.cover-badge {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
+  color: white; font-size: 13px; font-weight: 700;
+  letter-spacing: 4px; text-transform: uppercase;
+  padding: 8px 24px; border-radius: 9999px; margin-bottom: 32px;
+}
+.cover h1 { font-size: 64px; font-weight: 800; color: #fff; line-height: 1.1; margin-bottom: 16px; letter-spacing: -2px; }
+.cover h1 span { color: #fecaca; }
+.cover-sub { font-size: 22px; color: #e2e8f0; margin-bottom: 56px; max-width: 700px; }
+.stats { display: flex; gap: 48px; margin-bottom: 56px; }
+.stat-num { font-size: 40px; font-weight: 800; color: #fecaca; }
+.stat-lbl { font-size: 12px; color: #cbd5e1; text-transform: uppercase; letter-spacing: 2px; }
+
+/* Table of Contents */
+.toc { padding: 80px; page-break-after: always; background: var(--bg-light); min-height: 100vh; }
+.toc h2 { font-size: 38px; font-weight: 800; color: var(--dark); margin-bottom: 40px; padding-bottom: 16px; border-bottom: 4px solid var(--primary); display: inline-block; }
+.toc-list { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.toc-row { display: flex; align-items: center; gap: 16px; color: var(--text); font-size: 15px; font-weight: 500; padding: 12px 16px; background: white; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+.ch-num { background: var(--primary); color: white; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 8px; min-width: 32px; text-align: center; }
+
+/* Chapters */
+.chapter { page-break-before: always; }
+.ch-hdr { background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%); padding: 80px; color: #fff; }
+.ch-num-lbl { font-size: 14px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: #fecaca; margin-bottom: 16px; }
+.ch-hdr h2 { font-size: 44px; font-weight: 800; line-height: 1.2; margin-bottom: 16px; letter-spacing: -1px; }
+.ch-desc { font-size: 18px; color: var(--text-light); max-width: 700px; }
+.ch-body { padding: 80px; max-width: 1200px; margin: 0 auto; }
+
+/* Sections */
+.section { margin-bottom: 64px; border-bottom: 1px solid var(--border); padding-bottom: 48px; }
+.section h3 { font-size: 26px; font-weight: 700; color: var(--dark); margin-bottom: 20px; padding-left: 16px; border-left: 5px solid var(--primary); }
+.section p { font-size: 16px; color: var(--text); margin-bottom: 18px; text-align: justify; }
+
+/* Code Blocks */
+.code-block { background: var(--code-bg); border-radius: 14px; margin: 24px 0; overflow: hidden; border: 1px solid var(--code-border); }
+.code-hdr { background: #1e293b; padding: 12px 20px; display: flex; align-items: center; gap: 8px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot.r { background: #ef4444; }
+.dot.y { background: #f59e0b; }
+.dot.g { background: #10b981; }
+.fname { color: var(--text-light); font-size: 12px; font-family: 'Fira Code', monospace; margin-left: 12px; }
+.code-block pre { padding: 24px; font-family: 'Fira Code', monospace; font-size: 14px; line-height: 1.7; color: #e2e8f0; white-space: pre-wrap; }
+
+/* Token Highlighting */
+.kw { color: var(--kw); }
+.str { color: var(--str); }
+.num { color: var(--num); }
+.cmt { color: var(--cmt); }
+.fn { color: var(--fn); }
+.cls { color: var(--cls); }
+.vr { color: var(--var); }
+
+/* Tables */
+.tbl { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 15px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.tbl th { background: var(--dark); color: #fff; padding: 14px 18px; text-align: left; }
+.tbl td { padding: 12px 18px; border-bottom: 1px solid var(--border); background: white; }
+.tbl tr:nth-child(even) td { background: var(--bg-light); }
+code { background: #f1f5f9; padding: 2px 6px; border-radius: 6px; font-family: 'Fira Code', monospace; font-size: 14px; color: #e11d48; }
+
+/* Teacher / Professor Note */
+.prof-note {
+  background: #fef2f2; border-left: 6px solid var(--primary); color: #991b1b;
+  padding: 24px; margin: 32px 0; border-radius: 12px; border-top: 1px solid #fee2e2; border-right: 1px solid #fee2e2; border-bottom: 1px solid #fee2e2;
+}
+.prof-title { font-weight: 800; margin-bottom: 10px; font-size: 17px; display: flex; align-items: center; gap: 8px; }
+
+/* Print CTA Page Elements */
+.print-cta { text-align: center; padding: 48px; background: var(--bg-light); border-top: 4px solid var(--primary); }
+.print-btn { background: var(--dark); color: white; border: none; padding: 14px 36px; font-size: 16px; font-weight: 700; border-radius: 10px; cursor: pointer; font-family: inherit; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="ang-logo"><span>A</span></div>
+  <div class="cover-badge">Angular 17 Curriculum</div>
+  <h1>Angular 17 <span>Core &amp; Declarative Views</span></h1>
+  <p class="cover-sub">A Masterclass Textbook on Built-in Control Flow, Deferrable Views, and the Foundations of Signals Change Detection</p>
+  <div class="stats">
+    <div><div class="stat-num">06</div><div class="stat-lbl">Core Chapters</div></div>
+    <div><div class="stat-num">50+</div><div class="stat-lbl">Detailed Lessons</div></div>
+    <div><div class="stat-num">100%</div><div class="stat-lbl">Standalone-First</div></div>
+  </div>
+</div>
+
+<div class="toc">
+  <h2>Table of Contents</h2>
+  <ul class="toc-list">
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">01</span>1. The Paradigm Shift: Standalone Architecture</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">02</span>2. The New Built-in Control Flow (@if, @for, @switch)</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">03</span>3. Deferrable Views (@defer) &amp; Performance Tuning</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">04</span>4. Introduction to Angular Signals: The Reactive Primitive</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">05</span>5. Hydration &amp; Server-Side Rendering (SSR)</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">06</span>6. Application Tooling: esbuild &amp; Vite Integration</div></li>
+  </ul>
+</div>
+
+<!-- ==================== CHAPTER 1 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 01</div>
+    <h2>The Paradigm Shift: Standalone Architecture</h2>
+    <p class="ch-desc">Examine how Standalone components remove the need for NgModule declarations, making dependencies explicit at the component level.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>1.1 Standalone Components by Default</h3>
+      <p>Historically, Angular organized applications using <strong>NgModules</strong> to manage compilation contexts and dependency injection boundaries. Starting with Angular 17, Standalone APIs are the default. Components, directives, and pipes are declared with <code>standalone: true</code> in their decorator, bypassing the intermediate module declaration step.</p>
+      
+      <div class="prof-note">
+        <div class="prof-title"><span>👨‍🏫</span> Professor's Lecture: Why Modules are Retiring</div>
+        <p>In older Angular versions, NgModules created a layer of indirection. A component did not explicitly state its dependencies. Instead, it relied on its declaring NgModule's imports. This made tree-shaking difficult because the compiler could not easily prove whether a component actually used an imported library. Standalone components solve this by requiring explicit declarations inside their <code>imports</code> array, making dependency tracking much more precise.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">standalone.component.ts</span></div>
+        <pre><span class="kw">import</span> { Component } <span class="kw">from</span> '@angular/core';
+<span class="kw">import</span> { CommonModule } <span class="kw">from</span> '@angular/common';
+
+@Component({
+  selector: 'app-profile',
+  standalone: <span class="kw">true</span>,
+  imports: [CommonModule],
+  template: `
+    &lt;div class="profile"&gt;
+      &lt;h3&gt;User Profile&lt;/h3&gt;
+    &lt;/div&gt;
+  `
+})
+<span class="kw">export class</span> <span class="cls">ProfileComponent</span> {}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 2 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 02</div>
+    <h2>The New Built-in Control Flow (@if, @for, @switch)</h2>
+    <p class="ch-desc">Understand how the new template block syntax compiles directly to standard JavaScript, replacing traditional structural directives.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>2.1 Syntactic Sugar vs Built-in Execution</h3>
+      <p>Angular 17 introduced a new built-in control flow syntax using the <code>@</code> prefix. This syntax replaces older structural directives like <code>*ngIf</code>, <code>*ngFor</code>, and <code>*ngSwitch</code>. Instead of parsing custom attributes at runtime, the compiler compiles these blocks directly into standard JavaScript instructions during compilation.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">control-flow.component.html</span></div>
+        <pre><span class="cmt">&lt;!-- 1. Conditonals (@if, @else) --&gt;</span>
+@if (isLoggedIn) {
+  &lt;p&gt;Welcome back, user!&lt;/p>
+} @else {
+  &lt;p&gt;Please log in.&lt;/p>
+}
+
+<span class="cmt">&lt;!-- 2. Iterators (@for) - require tracking keys natively --&gt;</span>
+@for (item of items; track item.id) {
+  &lt;li&gt;{{ item.name }}&lt;/li>
+} @empty {
+  &lt;p&gt;No items available in list.&lt;/p>
+}
+
+<span class="cmt">&lt;!-- 3. Switches (@switch) --&gt;</span>
+@switch (role) {
+  @case ('admin') { &lt;span&gt;Admin Dashboard&lt;/span&gt; }
+  @case ('editor') { &lt;span&gt;Editor Panel&lt;/span&gt; }
+  @default { &lt;span&gt;Standard View&lt;/span&gt; }
+}</pre>
+      </div>
+
+      <div class="prof-note">
+        <div class="prof-title"><span>👨‍🏫</span> Professor's Analysis: Performance Wins</div>
+        <p>Built-in control flow improves performance by reducing rendering overhead. The <code>track</code> expression in <code>@for</code> is now checked at compile-time, helping the rendering engine efficiently match elements to DOM nodes during collection changes. This yields up to a 90% rendering speed improvement for large lists compared to legacy structural directives.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 3 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 03</div>
+    <h2>Deferrable Views (@defer) &amp; Performance Tuning</h2>
+    <p class="ch-desc">Learn about lazy-loading component blocks using the @defer template control system.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>3.1 Progressive Loading in Templates</h3>
+      <p>The <code>@defer</code> block allows you to lazy-load dependencies (like heavy charts or dialog forms) only when a specific trigger condition is met, reducing the initial bundle size of your page.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">defer-views.component.html</span></div>
+        <pre><span class="cmt">&lt;!-- Defer loading until user hovers over the placeholder area --&gt;</span>
+@defer (on hover) {
+  &lt;app-heavy-chart [data]="chartData" /&gt;
+} @placeholder {
+  &lt;div class="skeleton"&gt;Hover here to load the chart...&lt;/div&gt;
+} @loading {
+  &lt;div class="spinner"&gt;Loading dependency modules...&lt;/div&gt;
+} @error {
+  &lt;p&gt;Failed to load chart bundle.&lt;/p>
+}</pre>
+      </div>
+      
+      <h4>Supported Triggers</h4>
+      <ul>
+        <li><strong>on idle</strong>: Loads when browser enters idle state (default).</li>
+        <li><strong>on viewport</strong>: Loads when the placeholder enters the visible screen area.</li>
+        <li><strong>on interaction</strong>: Loads when user clicks or presses a key on the placeholder.</li>
+        <li><strong>on hover</strong>: Loads when the mouse hovers over the placeholder.</li>
+        <li><strong>on immediate</strong>: Loads immediately after the parent template renders.</li>
+        <li><strong>on timer(duration)</strong>: Loads after a specified delay.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 4 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 04</div>
+    <h2>Introduction to Angular Signals</h2>
+    <p class="ch-desc">Master the reactive primitives: writeable signals, computed values, and execution effects.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>4.1 Writeable Signals, Computeds, and Effects</h3>
+      <p>Angular 17 stabilized the foundations of **Signals**, a reactive primitive that tracks state changes within your application. Signals offer a cleaner alternative to RXJS for basic state management and can run without the overhead of Zone.js.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">signals.component.ts</span></div>
+        <pre><span class="kw">import</span> { Component, signal, computed, effect } <span class="kw">from</span> '@angular/core';
+
+@Component({
+  selector: 'app-counter',
+  standalone: <span class="kw">true</span>,
+  template: `
+    &lt;button (click)="increment()"&gt;Count: {{ count() }}&lt;/button&gt;
+    &lt;p&gt;Double Count: {{ double() }}&lt;/p&gt;
+  `
+})
+<span class="kw">export class</span> <span class="cls">CounterComponent</span> {
+  count <span class="op">=</span> <span class="fn">signal</span>(<span class="num">0</span>);
+  double <span class="op">=</span> <span class="fn">computed</span>(() <span class="op">=&gt;</span> <span class="kw">this</span>.count() * <span class="num">2</span>);
+
+  <span class="fn">constructor</span>() {
+    <span class="fn">effect</span>(() <span class="op">=&gt;</span> {
+      <span class="fn">console</span>.<span class="fn">log</span>("Current count is: " + <span class="kw">this</span>.count());
+    });
+  }
+
+  <span class="fn">increment</span>() {
+    <span class="kw">this</span>.count.<span class="fn">update</span>(<span class="vr">prev</span> <span class="op">=&gt;</span> <span class="vr">prev</span> <span class="op">+</span> <span class="num">1</span>);
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 5 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 05</div>
+    <h2>Hydration &amp; Server-Side Rendering (SSR)</h2>
+    <p class="ch-desc">Learn about non-destructive hydration, which preserves the server-rendered DOM instead of rebuilding it on the client.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>5.1 Non-destructive Hydration</h3>
+      <p>Before version 17, Angular SSR suffered from "destructive hydration." The client-side app would download, discard the server-rendered DOM, and rebuild it from scratch. This caused noticeable page flickering. Angular 17 introduces **Non-destructive Hydration**, which matches the server-rendered DOM nodes to the client-side component representation without tearing down the DOM.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">app.config.ts</span></div>
+        <pre><span class="kw">import</span> { ApplicationConfig } <span class="kw">from</span> '@angular/core';
+<span class="kw">import</span> { provideClientHydration } <span class="kw">from</span> '@angular/platform-browser';
+
+<span class="kw">export const</span> <span class="vr">appConfig</span>: <span class="cls">ApplicationConfig</span> <span class="op">=</span> {
+  providers: [
+    <span class="fn">provideClientHydration</span>()
+  ]
+};</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 6 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 06</div>
+    <h2>Application Tooling: esbuild &amp; Vite Integration</h2>
+    <p class="ch-desc">Learn about the Application Builder, which integrates esbuild and Vite to compile applications up to 10x faster.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>6.1 Modern Compilation Pipelines</h3>
+      <p>Angular 17 introduced a modern build pipeline based on **esbuild** and **Vite**, replacing the legacy Webpack build process. This configuration compiles TypeScript, bundles modules, and minifies assets significantly faster.</p>
+      <div class="sumbox">
+        <h4>Key Tooling Enhancements</h4>
+        <ul>
+          <li><strong>esbuild for build compilation</strong>: Runs parallel compilation steps, drastically reducing local build times.</li>
+          <li><strong>Vite dev server integration</strong>: Leverages Vite for hot module replacement during local development.</li>
+          <li><strong>Unified Configuration</strong>: Build processes for SSR and client bundles are handled within a single configuration.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PRINT FOOTER ==================== -->
+<div class="print-cta">
+  <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+</div>
+
+</body>
+</html>

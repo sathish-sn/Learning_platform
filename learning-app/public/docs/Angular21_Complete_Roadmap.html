@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Angular 21 Architecture &amp; Masterclass Textbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --primary: #c2185b;
+  --primary-dark: #880e4f;
+  --dark: #0f172a;
+  --blue: #1e3a8a;
+  --text: #334155;
+  --text-light: #64748b;
+  --bg-light: #f8fafc;
+  --code-bg: #0f172a;
+  --code-border: #1e293b;
+  --border: #e2e8f0;
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  
+  /* Syntax Highlighting */
+  --kw: #cba6f7;
+  --str: #a6e3a1;
+  --num: #fab387;
+  --cmt: #6c7086;
+  --fn: #89b4fa;
+  --cls: #f38ba8;
+  --op: #89dceb;
+  --var: #eed49f;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); background: #ffffff; line-height: 1.8; -webkit-font-smoothing: antialiased; }
+
+/* Cover Page */
+.cover {
+  background: radial-gradient(circle at 10% 20%, rgb(15, 23, 42) 0%, rgb(194, 24, 91) 100%);
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  padding: 80px 40px; page-break-after: always; color: white;
+}
+.ang-logo {
+  width: 120px; height: 120px; background: white;
+  border-radius: 24px; display: flex; align-items: center;
+  justify-content: center; margin: 0 auto 32px;
+  box-shadow: 0 25px 50px -12px rgba(194,24,91,0.4);
+}
+.ang-logo span { font-size: 64px; font-weight: 800; color: var(--primary); font-family: 'Plus Jakarta Sans', sans-serif; }
+.cover-badge {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
+  color: white; font-size: 13px; font-weight: 700;
+  letter-spacing: 4px; text-transform: uppercase;
+  padding: 8px 24px; border-radius: 9999px; margin-bottom: 32px;
+}
+.cover h1 { font-size: 64px; font-weight: 800; color: #fff; line-height: 1.1; margin-bottom: 16px; letter-spacing: -2px; }
+.cover h1 span { color: #fbcfe8; }
+.cover-sub { font-size: 22px; color: #cbd5e1; margin-bottom: 56px; max-width: 700px; }
+.stats { display: flex; gap: 48px; margin-bottom: 56px; }
+.stat-num { font-size: 40px; font-weight: 800; color: #fbcfe8; }
+.stat-lbl { font-size: 12px; color: #cbd5e1; text-transform: uppercase; letter-spacing: 2px; }
+
+/* Table of Contents */
+.toc { padding: 80px; page-break-after: always; background: var(--bg-light); min-height: 100vh; }
+.toc h2 { font-size: 38px; font-weight: 800; color: var(--dark); margin-bottom: 40px; padding-bottom: 16px; border-bottom: 4px solid var(--primary); display: inline-block; }
+.toc-list { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.toc-row { display: flex; align-items: center; gap: 16px; color: var(--text); font-size: 15px; font-weight: 500; padding: 12px 16px; background: white; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+.ch-num { background: var(--primary); color: white; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 8px; min-width: 32px; text-align: center; }
+
+/* Chapters */
+.chapter { page-break-before: always; }
+.ch-hdr { background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%); padding: 80px; color: #fff; }
+.ch-num-lbl { font-size: 14px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: #fbcfe8; margin-bottom: 16px; }
+.ch-hdr h2 { font-size: 44px; font-weight: 800; line-height: 1.2; margin-bottom: 16px; letter-spacing: -1px; }
+.ch-desc { font-size: 18px; color: var(--text-light); max-width: 700px; }
+.ch-body { padding: 80px; max-width: 1200px; margin: 0 auto; }
+
+/* Sections */
+.section { margin-bottom: 64px; border-bottom: 1px solid var(--border); padding-bottom: 48px; }
+.section h3 { font-size: 26px; font-weight: 700; color: var(--dark); margin-bottom: 20px; padding-left: 16px; border-left: 5px solid var(--primary); }
+.section p { font-size: 16px; color: var(--text); margin-bottom: 18px; text-align: justify; }
+
+/* Code Blocks */
+.code-block { background: var(--code-bg); border-radius: 14px; margin: 24px 0; overflow: hidden; border: 1px solid var(--code-border); }
+.code-hdr { background: #1e293b; padding: 12px 20px; display: flex; align-items: center; gap: 8px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot.r { background: #ef4444; }
+.dot.y { background: #f59e0b; }
+.dot.g { background: #10b981; }
+.fname { color: var(--text-light); font-size: 12px; font-family: 'Fira Code', monospace; margin-left: 12px; }
+.code-block pre { padding: 24px; font-family: 'Fira Code', monospace; font-size: 14px; line-height: 1.7; color: #e2e8f0; white-space: pre-wrap; }
+
+/* Token Highlighting */
+.kw { color: var(--kw); }
+.str { color: var(--str); }
+.num { color: var(--num); }
+.cmt { color: var(--cmt); }
+.fn { color: var(--fn); }
+.cls { color: var(--cls); }
+.vr { color: var(--var); }
+
+/* Tables */
+.tbl { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 15px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.tbl th { background: var(--dark); color: #fff; padding: 14px 18px; text-align: left; }
+.tbl td { padding: 12px 18px; border-bottom: 1px solid var(--border); background: white; }
+.tbl tr:nth-child(even) td { background: var(--bg-light); }
+code { background: #f1f5f9; padding: 2px 6px; border-radius: 6px; font-family: 'Fira Code', monospace; font-size: 14px; color: #e11d48; }
+
+/* Professor Note */
+.prof-note {
+  background: #fdf2f8; border-left: 6px solid var(--primary); color: #831843;
+  padding: 24px; margin: 32px 0; border-radius: 12px; border-top: 1px solid #fbcfe8; border-right: 1px solid #fbcfe8; border-bottom: 1px solid #fbcfe8;
+}
+.prof-title { font-weight: 800; margin-bottom: 10px; font-size: 17px; display: flex; align-items: center; gap: 8px; }
+
+/* Print CTA Page Elements */
+.print-cta { text-align: center; padding: 48px; background: var(--bg-light); border-top: 4px solid var(--primary); }
+.print-btn { background: var(--dark); color: white; border: none; padding: 14px 36px; font-size: 16px; font-weight: 700; border-radius: 10px; cursor: pointer; font-family: inherit; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="ang-logo"><span>A</span></div>
+  <div class="cover-badge">Angular 21 Curriculum</div>
+  <h1>Angular 21 <span>Zoneless &amp; Signals-Native</span></h1>
+  <p class="cover-sub">A Masterclass Textbook on resource(), signal inputs, local synchronization, and compilation architecture without zone.js</p>
+  <div class="stats">
+    <div><div class="stat-num">06</div><div class="stat-lbl">Core Chapters</div></div>
+    <div><div class="stat-num">65+</div><div class="stat-lbl">Detailed Lessons</div></div>
+    <div><div class="stat-num">100%</div><div class="stat-lbl">Zoneless-Ready</div></div>
+  </div>
+</div>
+
+<div class="toc">
+  <h2>Table of Contents</h2>
+  <ul class="toc-list">
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">01</span>1. The Zoneless Era: Change Detection Re-imagined</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">02</span>2. Signals-Native Component APIs (input, output, model)</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">03</span>3. Local State Synchronization with linkedSignal()</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">04</span>4. The Async Resource API: resource() &amp; rxResource()</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">05</span>5. Modern Signal Queries (viewChild, contentChild)</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">06</span>6. SSR, Partial Hydration &amp; Event Replay</div></li>
+  </ul>
+</div>
+
+<!-- ==================== CHAPTER 1 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 01</div>
+    <h2>The Zoneless Era: Change Detection Re-imagined</h2>
+    <p class="ch-desc">Discover how modern Angular achieves type-safe reactivity and change detection without loading zone.js in the browser.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>1.1 Zoneless Change Detection Setup</h3>
+      <p>Historically, Angular relied on **Zone.js** to intercept asynchronous browser events (like click event handlers, timer intervals, or HTTP responses) and trigger global application change detection checks. Angular 21 stabilizes **Zoneless change detection**, enabling component-level checks only when reactives update.</p>
+      
+      <div class="prof-note">
+        <div class="prof-title"><span>👨‍🏫</span> Professor's Lecture: The Death of Zone.js</div>
+        <p>Zone.js worked by monkey-patching browser APIs (like addEventListener and setTimeout). While convenient, it caused performance issues. If an event fired in one component, Zone.js would run a dirty check across the *entire* application tree. Zoneless change detection, when paired with Signals, allows Angular to pinpoint exactly which node in the component tree requires a redraw, leading to faster execution times and reduced memory footprints.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">app.config.ts</span></div>
+        <pre><span class="kw">import</span> { ApplicationConfig, provideExperimentalZonelessChangeDetection } <span class="kw">from</span> '@angular/core';
+
+<span class="kw">export const</span> <span class="vr">appConfig</span>: <span class="cls">ApplicationConfig</span> <span class="op">=</span> {
+  providers: [
+    <span class="fn">provideExperimentalZonelessChangeDetection</span>()
+  ]
+};</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 2 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 02</div>
+    <h2>Signals-Native Component APIs</h2>
+    <p class="ch-desc">Learn about signal-based inputs, output emitters, and model bindings that replace decorator-based configurations.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>2.1 Signal Inputs, Outputs, and Models</h3>
+      <p>Angular 21 replaces decorator-based component properties with signal-based alternatives, which compile down to standard reactive primitives.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">signal-native.component.ts</span></div>
+        <pre><span class="kw">import</span> { Component, input, output, model } <span class="kw">from</span> '@angular/core';
+
+@Component({
+  selector: 'app-user-profile',
+  standalone: <span class="kw">true</span>,
+  template: `
+    &lt;p&gt;Active User: {{ username() }}&lt;/p&gt;
+    &lt;button (click)="updateStatus()"&gt;Toggle Active&lt;/button&gt;
+  `
+})
+<span class="kw">export class</span> <span class="cls">UserProfileComponent</span> {
+  username <span class="op">=</span> <span class="fn">input</span>.<span class="fn">required</span>&lt;<span class="kw">string</span>&gt;();
+  isActive <span class="op">=</span> <span class="fn">model</span>&lt;<span class="kw">boolean</span>&gt;(<span class="kw">false</span>);
+  statusChanged <span class="op">=</span> <span class="fn">output</span>&lt;<span class="kw">boolean</span>&gt;();
+
+  <span class="fn">updateStatus</span>() {
+    <span class="kw">this</span>.isActive.<span class="fn">update</span>(<span class="vr">current</span> <span class="op">=&gt;</span> <span class="op">!</span><span class="vr">current</span>);
+    <span class="kw">this</span>.statusChanged.<span class="fn">emit</span>(<span class="kw">this</span>.isActive());
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 3 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 03</div>
+    <h2>Local State Synchronization with linkedSignal()</h2>
+    <p class="ch-desc">Learn about linkedSignal(), a new utility for synchronizing transient local state with upstream reactive inputs.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>3.1 Dynamic State Resetting</h3>
+      <p>A common UI challenge is resetting local component state (like a dropdown selection) when a parent input changes. The <code>linkedSignal()</code> API solves this problem by automatically resetting its value whenever a source signal changes.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">linked-signal.component.ts</span></div>
+        <pre><span class="kw">import</span> { Component, input, linkedSignal } <span class="kw">from</span> '@angular/core';
+
+@Component({
+  selector: 'app-item-selector',
+  standalone: <span class="kw">true</span>,
+  template: `
+    &lt;h4&gt;Category: {{ category() }}&lt;/h4&gt;
+    &lt;p&gt;Selected Item: {{ selectedItem() }}&lt;/p&gt;
+  `
+})
+<span class="kw">export class</span> <span class="cls">ItemSelectorComponent</span> {
+  category <span class="op">=</span> <span class="fn">input</span>.<span class="fn">required</span>&lt;<span class="kw">string</span>&gt;();
+
+  selectedItem <span class="op">=</span> <span class="fn">linkedSignal</span>({
+    source: <span class="kw">this</span>.category,
+    computation: (<span class="vr">cat</span>) <span class="op">=&gt;</span> "Default " + <span class="vr">cat</span> + " Item"
+  });
+
+  <span class="fn">selectItem</span>(<span class="vr">newItem</span>: <span class="kw">string</span>) {
+    <span class="kw">this</span>.selectedItem.<span class="fn">set</span>(<span class="vr">newItem</span>);
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 4 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 04</div>
+    <h2>The Async Resource API: resource() &amp; rxResource()</h2>
+    <p class="ch-desc">Learn about the resource() and rxResource() APIs, which allow you to fetch asynchronous data directly using signals.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>4.1 Declaring Data Resources</h3>
+      <p>Angular 21 introduces <code>resource()</code> and <code>rxResource()</code>, allowing you to fetch asynchronous data and manage loading states directly within the Signal reactivity model.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">resource-api.component.ts</span></div>
+        <pre><span class="kw">import</span> { Component, signal, resource } <span class="kw">from</span> '@angular/core';
+
+@Component({
+  selector: 'app-product-profile',
+  standalone: <span class="kw">true</span>,
+  template: `
+    &lt;div&gt;
+      @if (product.isLoading()) {
+        &lt;p&gt;Loading product...&lt;/p>
+      } @else if (product.value()) {
+        &lt;h4&gt;{{ product.value()?.name }}&lt;/h4&gt;
+        &lt;p&gt;Price: ${{ product.value()?.price }}&lt;/p>
+      }
+    &lt;/div&gt;
+  `
+})
+<span class="kw">export class</span> <span class="cls">ProductProfileComponent</span> {
+  productId <span class="op">=</span> <span class="fn">signal</span>(<span class="num">101</span>);
+
+  product <span class="op">=</span> <span class="fn">resource</span>({
+    request: () <span class="op">=&gt;</span> ({ id: <span class="kw">this</span>.productId() }),
+    loader: <span class="kw">async</span> ({ request }) <span class="op">=&gt;</span> {
+      <span class="kw">const</span> <span class="vr">res</span> <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>("https://api.store.com/products/" + <span class="vr">request</span>.id);
+      <span class="kw">return</span> <span class="vr">res</span>.<span class="fn">json</span>();
+    }
+  });
+}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 5 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 05</div>
+    <h2>Modern Signal Queries (viewChild, contentChild)</h2>
+    <p class="ch-desc">Learn about query functions that look up child components and elements as reactive signals.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>5.1 Query Signal Functions</h3>
+      <p>Angular 21 updates template child queries to use signals, providing automatic type checking and reflow safety.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">queries.component.ts</span></div>
+        <pre><span class="kw">import</span> { Component, viewChild, ElementRef } <span class="kw">from</span> '@angular/core';
+
+@Component({
+  selector: 'app-modal-parent',
+  standalone: <span class="kw">true</span>,
+  template: `
+    &lt;div #modalContainer&gt;&lt;/div&gt;
+  `
+})
+<span class="kw">export class</span> <span class="cls">ModalParentComponent</span> {
+  containerElement <span class="op">=</span> viewChild.required&lt;<span class="cls">ElementRef</span>&lt;<span class="cls">HTMLDivElement</span>&gt;&gt;('modalContainer');
+}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 6 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 06</div>
+    <h2>SSR, Partial Hydration &amp; Event Replay</h2>
+    <p class="ch-desc">Learn about partial hydration, which lets the browser download and hydrate specific page blocks only when needed.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>6.1 Event Replay during SSR</h3>
+      <p>To prevent loss of user actions (like clicks) that occur before the client-side JavaScript finishes downloading and executing, Angular 21 records those actions and replays them once the application is fully hydrated.</p>
+      
+      <div class="prof-note">
+        <div class="prof-title"><span>👨‍🏫</span> Professor's Summary: Web Performance Gains</div>
+        <p>By using **Zoneless change detection** and **Event Replay**, Angular 21 improves your site's core web vitals. It decreases the Time to Interactive (TTI) and reduces the First Input Delay (FID), creating a much faster and more responsive experience for your users.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PRINT FOOTER ==================== -->
+<div class="print-cta">
+  <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+</div>
+
+</body>
+</html>

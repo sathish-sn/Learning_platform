@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Angular Ultimate Masterclass | Beginner to Advanced Textbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --primary: #e02424;
+  --primary-dark: #b81d1d;
+  --dark: #0f172a;
+  --blue: #1e3a8a;
+  --text: #334155;
+  --text-light: #64748b;
+  --bg-light: #f8fafc;
+  --code-bg: #0f172a;
+  --code-border: #1e293b;
+  --border: #e2e8f0;
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  
+  /* Syntax Highlighting */
+  --kw: #cba6f7;
+  --str: #a6e3a1;
+  --num: #fab387;
+  --cmt: #6c7086;
+  --fn: #89b4fa;
+  --cls: #f38ba8;
+  --op: #89dceb;
+  --var: #eed49f;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); background: #ffffff; line-height: 1.8; -webkit-font-smoothing: antialiased; }
+
+/* Cover Page */
+.cover {
+  background: radial-gradient(circle at 10% 20%, rgb(15, 23, 42) 0%, rgb(224, 36, 36) 100%);
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  padding: 80px 40px; page-break-after: always; color: white;
+}
+.ang-logo {
+  width: 120px; height: 120px; background: white;
+  border-radius: 24px; display: flex; align-items: center;
+  justify-content: center; margin: 0 auto 32px;
+  box-shadow: 0 25px 50px -12px rgba(224,36,36,0.4);
+}
+.ang-logo span { font-size: 64px; font-weight: 800; color: var(--primary); font-family: 'Plus Jakarta Sans', sans-serif; }
+.cover-badge {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
+  color: white; font-size: 13px; font-weight: 700;
+  letter-spacing: 4px; text-transform: uppercase;
+  padding: 8px 24px; border-radius: 9999px; margin-bottom: 32px;
+}
+.cover h1 { font-size: 64px; font-weight: 800; color: #fff; line-height: 1.1; margin-bottom: 16px; letter-spacing: -2px; }
+.cover h1 span { color: #fecaca; }
+.cover-sub { font-size: 22px; color: #cbd5e1; margin-bottom: 56px; max-width: 700px; }
+.stats { display: flex; gap: 48px; margin-bottom: 56px; }
+.stat-num { font-size: 40px; font-weight: 800; color: #fecaca; }
+.stat-lbl { font-size: 12px; color: #cbd5e1; text-transform: uppercase; letter-spacing: 2px; }
+
+/* Table of Contents */
+.toc { padding: 80px; page-break-after: always; background: var(--bg-light); min-height: 100vh; }
+.toc h2 { font-size: 38px; font-weight: 800; color: var(--dark); margin-bottom: 40px; padding-bottom: 16px; border-bottom: 4px solid var(--primary); display: inline-block; }
+.toc-list { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.toc-row { display: flex; align-items: center; gap: 16px; color: var(--text); font-size: 15px; font-weight: 500; padding: 12px 16px; background: white; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+.ch-num { background: var(--primary); color: white; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 8px; min-width: 32px; text-align: center; }
+
+/* Chapters */
+.chapter { page-break-before: always; }
+.ch-hdr { background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%); padding: 80px; color: #fff; }
+.ch-num-lbl { font-size: 14px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: #fecaca; margin-bottom: 16px; }
+.ch-hdr h2 { font-size: 44px; font-weight: 800; line-height: 1.2; margin-bottom: 16px; letter-spacing: -1px; }
+.ch-desc { font-size: 18px; color: var(--text-light); max-width: 700px; }
+.ch-body { padding: 80px; max-width: 1200px; margin: 0 auto; }
+
+/* Sections */
+.section { margin-bottom: 64px; border-bottom: 1px solid var(--border); padding-bottom: 48px; }
+.section h3 { font-size: 26px; font-weight: 700; color: var(--dark); margin-bottom: 20px; padding-left: 16px; border-left: 5px solid var(--primary); }
+.section h4 { font-size: 18px; font-weight: 600; color: var(--dark); margin: 28px 0 12px; }
+.section p { font-size: 16px; color: var(--text); margin-bottom: 18px; text-align: justify; }
+
+/* Code Blocks */
+.code-block { background: var(--code-bg); border-radius: 14px; margin: 24px 0; overflow: hidden; border: 1px solid var(--code-border); }
+.code-hdr { background: #1e293b; padding: 12px 20px; display: flex; align-items: center; gap: 8px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot.r { background: #ef4444; }
+.dot.y { background: #f59e0b; }
+.dot.g { background: #10b981; }
+.fname { color: var(--text-light); font-size: 12px; font-family: 'Fira Code', monospace; margin-left: 12px; }
+.code-block pre { padding: 24px; font-family: 'Fira Code', monospace; font-size: 14px; line-height: 1.7; color: #e2e8f0; white-space: pre-wrap; }
+
+/* Token Highlighting */
+.kw { color: var(--kw); }
+.str { color: var(--str); }
+.num { color: var(--num); }
+.cmt { color: var(--cmt); }
+.fn { color: var(--fn); }
+.cls { color: var(--cls); }
+.vr { color: var(--var); }
+
+/* Tables */
+.tbl { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 15px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.tbl th { background: var(--dark); color: #fff; padding: 14px 18px; text-align: left; }
+.tbl td { padding: 12px 18px; border-bottom: 1px solid var(--border); background: white; }
+.tbl tr:nth-child(even) td { background: var(--bg-light); }
+code { background: #f1f5f9; padding: 2px 6px; border-radius: 6px; font-family: 'Fira Code', monospace; font-size: 14px; color: #e11d48; }
+
+/* Professor Note */
+.prof-note {
+  background: #fef2f2; border-left: 6px solid var(--primary); color: #991b1b;
+  padding: 24px; margin: 32px 0; border-radius: 12px; border-top: 1px solid #fee2e2; border-right: 1px solid #fee2e2; border-bottom: 1px solid #fee2e2;
+}
+.prof-title { font-weight: 800; margin-bottom: 10px; font-size: 17px; display: flex; align-items: center; gap: 8px; }
+
+/* Showdown Comparison Card */
+.showdown {
+  background: #f8fafc; border: 2px solid var(--primary); border-radius: 16px;
+  padding: 30px; margin: 32px 0; box-shadow: var(--shadow-lg);
+}
+.showdown-title {
+  color: var(--primary-dark); font-weight: 800; font-size: 18px;
+  margin-bottom: 16px; border-bottom: 2px solid var(--border); padding-bottom: 8px;
+}
+
+/* Image styling */
+.img-container { text-align: center; margin: 36px 0; background: var(--bg-light); padding: 24px; border: 1px solid var(--border); border-radius: 16px; }
+.img-container img { max-width: 100%; height: auto; border-radius: 10px; box-shadow: var(--shadow); }
+.img-caption { color: var(--text-light); font-size: 13px; font-weight: 600; margin-top: 12px; letter-spacing: 0.5px; }
+
+/* Print CTA Page Elements */
+.print-cta { text-align: center; padding: 48px; background: var(--bg-light); border-top: 4px solid var(--primary); }
+.print-btn { background: var(--dark); color: white; border: none; padding: 14px 36px; font-size: 16px; font-weight: 700; border-radius: 10px; cursor: pointer; font-family: inherit; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="ang-logo"><span>A</span></div>
+  <div class="cover-badge">Angular Complete Roadmap</div>
+  <h1>Angular <span>Beginner to Advanced Masterclass</span></h1>
+  <p class="cover-sub">A Comprehensive Pedagogical Guide to Workspace Configuration, Components, Services, RxJS, Forms, Routing, and Optimizations</p>
+  <div class="stats">
+    <div><div class="stat-num">10</div><div class="stat-lbl">Detailed Chapters</div></div>
+    <div><div class="stat-num">80+</div><div class="stat-lbl">Lessons</div></div>
+    <div><div class="stat-num">100%</div><div class="stat-lbl">Production Ready</div></div>
+  </div>
+</div>
+
+<div class="toc">
+  <h2>Table of Contents</h2>
+  <ul class="toc-list">
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">01</span>1. Angular Workspace Architecture &amp; Bootstrapping</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">02</span>2. Component Lifecycle Hooks &amp; State Management</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">03</span>3. Template Directives &amp; Custom Pipes</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">04</span>4. Dependency Injection (DI) &amp; Services</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">05</span>5. Reactive Forms &amp; Custom Validators</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">06</span>6. Angular Router &amp; Navigation Guards</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">07</span>7. HTTP Communication &amp; Interceptors</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">08</span>8. RxJS &amp; Functional Reactive Programming</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">09</span>9. Change Detection: Default vs OnPush</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">10</span>10. Unit Testing Components &amp; Mock Services</div></li>
+  </ul>
+</div>
+
+<!-- ==================== CHAPTER 1 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 01</div>
+    <h2>Angular Workspace Architecture &amp; Bootstrapping</h2>
+    <p class="ch-desc">Examine the workspace configuration files and the step-by-step bootstrapping execution sequence under the hood.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>1.1 Understanding Workspace Configuration</h3>
+      <p>An Angular workspace manages compilation settings, dependency injection boundaries, and asset distribution pipelines. Key configuration files include:</p>
+      <ul>
+        <li><strong>angular.json</strong>: Configures build settings, assets, global stylesheet imports, and configurations for different environments (like production and staging).</li>
+        <li><strong>tsconfig.json</strong>: Configures the TypeScript compiler settings. Important options include <code>strictTemplates</code>, which enforces type safety for template property bindings.</li>
+      </ul>
+
+      <!-- DIRECTORY TREE DIAGRAM -->
+      <div class="img-container">
+        <img src="./angular_workspace_structure.png" alt="Angular Workspace Directory Structure Diagram"/>
+        <div class="img-caption">Figure 1.1: Angular Workspace Directory Structure &amp; Bootstrapping Tree</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>1.2 The Bootstrapping Process</h3>
+      <p>When a browser loads an Angular application, it follows a specific bootstrapping execution sequence:</p>
+      <ol>
+        <li>The browser loads <strong>index.html</strong>.</li>
+        <li>The browser executes <strong>main.ts</strong>, which is the main entry point of the application.</li>
+        <li><strong>main.ts</strong> initializes the environment and calls <strong>bootstrapApplication()</strong>.</li>
+        <li>The bootstrapping function registers global dependency providers (defined in <code>app.config.ts</code>) and instantiates the root component, rendering it inside the <code>&lt;app-root&gt;</code> element in <code>index.html</code>.</li>
+      </ol>
+
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">main.ts</span></div>
+        <pre><span class="kw">import</span> { bootstrapApplication } <span class="kw">from</span> '@angular/platform-browser';
+<span class="kw">import</span> { AppComponent } <span class="kw">from</span> './app/app.component';
+<span class="kw">import</span> { appConfig } <span class="kw">from</span> './app/app.config';
+
+// Bootstraps the root component using the global configuration providers
+bootstrapApplication(AppComponent, appConfig)
+  .catch((err) => console.error(err));</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 2 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 02</div>
+    <h2>Component Lifecycle Hooks &amp; State Management</h2>
+    <p class="ch-desc">Explore how components bind data and execute logic during their rendering lifecycle.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>2.1 Component Lifecycle Hooks</h3>
+      <p>Angular components go through a lifecycle from initialization to destruction. You can tap into key moments of this lifecycle using interface hooks:</p>
+      
+      <table class="tbl">
+        <tr><th>Lifecycle Hook</th><th>Execution Timing</th><th>Typical Use Case</th></tr>
+        <tr><td><code>ngOnChanges</code></td><td>Fires before <code>ngOnInit</code> and whenever data-bound inputs change.</td><td>Reacting to parent property updates.</td></tr>
+        <tr><td><code>ngOnInit</code></td><td>Fires once after inputs are initialized.</td><td>Fetching initial data.</td></tr>
+        <tr><td><code>ngAfterViewInit</code></td><td>Fires after the component's views are initialized.</td><td>Direct DOM operations and query selectors.</td></tr>
+        <tr><td><code>ngOnDestroy</code></td><td>Fires right before Angular destroys the component.</td><td>Unsubscribing from Observables to prevent memory leaks.</td></tr>
+      </table>
+
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">profile.component.ts</span></div>
+        <pre><span class="kw">import</span> { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges } <span class="kw">from</span> '@angular/core';
+<span class="kw">import</span> { Subscription } <span class="kw">from</span> 'rxjs';
+
+@Component({
+  selector: 'app-profile',
+  standalone: <span class="kw">true</span>,
+  template: '&lt;p&gt;Active User: {{ userId }}&lt;/p&gt;'
+})
+<span class="kw">export class</span> <span class="cls">ProfileComponent</span> <span class="kw">implements</span> <span class="cls">OnInit</span>, <span class="cls">OnChanges</span>, <span class="cls">OnDestroy</span> {
+  @Input() userId!: <span class="kw">number</span>;
+  <span class="kw">private</span> <span class="vr">sub</span> <span class="op">=</span> <span class="kw">new</span> <span class="cls">Subscription</span>();
+
+  /* Triggers whenever input properties change */
+  <span class="fn">ngOnChanges</span>(<span class="vr">changes</span>: <span class="cls">SimpleChanges</span>) {
+    <span class="kw">if</span> (<span class="vr">changes</span>['userId']) {
+      <span class="kw">const</span> <span class="vr">prev</span> <span class="op">=</span> <span class="vr">changes</span>['userId'].previousValue;
+      <span class="kw">const</span> <span class="vr">curr</span> <span class="op">=</span> <span class="vr">changes</span>['userId'].currentValue;
+      <span class="fn">console</span>.<span class="fn">log</span>("userId changed from " + <span class="vr">prev</span> + " to " + <span class="vr">curr</span>);
+    }
+  }
+
+  <span class="fn">ngOnInit</span>() {
+    <span class="fn">console</span>.<span class="fn">log</span>("Initializing profile components for user ID:", <span class="kw">this</span>.userId);
+  }
+
+  <span class="fn">ngOnDestroy</span>() {
+    <span class="kw">this</span>.sub.<span class="fn">unsubscribe</span>(); /* Prevent memory leaks */
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 3 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 03</div>
+    <h2>Template Directives &amp; Custom Pipes</h2>
+    <p class="ch-desc">Learn how to create custom directives to manipulate the DOM, and custom pipes to format template data.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>3.1 Creating Custom Attribute Directives</h3>
+      <p>Directives allow you to extend the behavior of elements in your templates. Use HostListeners and HostBindings to listen to events and update element properties dynamically.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">highlight.directive.ts</span></div>
+        <pre><span class="kw">import</span> { Directive, ElementRef, HostListener, HostBinding } <span class="kw">from</span> '@angular/core';
+
+@Directive({
+  selector: '[appHighlight]',
+  standalone: <span class="kw">true</span>
+})
+<span class="kw">export class</span> <span class="cls">HighlightDirective</span> {
+  <span class="fn">constructor</span>(<span class="kw">private</span> <span class="vr">el</span>: <span class="cls">ElementRef</span>) {}
+
+  @HostBinding('style.backgroundColor') color: <span class="kw">string</span> <span class="op">=</span> 'transparent';
+
+  @HostListener('mouseenter') <span class="fn">onMouseEnter</span>() {
+    <span class="kw">this</span>.color <span class="op">=</span> 'yellow';
+  }
+
+  @HostListener('mouseleave') <span class="fn">onMouseLeave</span>() {
+    <span class="kw">this</span>.color <span class="op">=</span> 'transparent';
+  }
+}</pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>3.2 Pure vs Impure Pipes</h3>
+      <p>Pipes transform template output. By default, pipes are **pure**, meaning their transformation logic only runs when their input values change. **Impure** pipes run on every change detection cycle, which can cause performance issues if they contain slow operations.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">pure-pipe.ts</span></div>
+        <pre><span class="kw">import</span> { Pipe, PipeTransform } <span class="kw">from</span> '@angular/core';
+
+@Pipe({
+  name: 'exponential',
+  pure: <span class="kw">true</span>, /* Only re-evaluates if input value changes */
+  standalone: <span class="kw">true</span>
+})
+<span class="kw">export class</span> <span class="cls">ExponentialPipe</span> <span class="kw">implements</span> <span class="cls">PipeTransform</span> {
+  <span class="fn">transform</span>(<span class="vr">value</span>: <span class="kw">number</span>, <span class="vr">exponent</span>: <span class="kw">number</span>): <span class="kw">number</span> {
+    <span class="kw">return</span> <span class="fn">Math</span>.<span class="fn">pow</span>(<span class="vr">value</span>, <span class="vr">exponent</span>);
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 4 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 04</div>
+    <h2>Dependency Injection (DI) &amp; Services</h2>
+    <p class="ch-desc">Master hierarchical dependency injection, providers, and component-level injector scopes.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>4.1 Hierarchical Injectors</h3>
+      <p>Angular uses hierarchical dependency injection. Services declared with <code>providedIn: 'root'</code> are singleton instances shared across the entire application. Services declared within a component's <code>providers</code> array are scoped to that component and its children, creating a separate instance for that sub-tree.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">logger.service.ts</span></div>
+        <pre><span class="kw">import</span> { Injectable } <span class="kw">from</span> '@angular/core';
+
+@Injectable({
+  providedIn: 'root' /* Application-wide singleton */
+})
+<span class="kw">export class</span> <span class="cls">LoggerService</span> {
+  <span class="fn">log</span>(<span class="vr">msg</span>: <span class="kw">string</span>) {
+    <span class="fn">console</span>.<span class="fn">log</span>("[LOG]: " + <span class="vr">msg</span>);
+  }
+}</pre>
+      </div>
+
+      <!-- SHOWDOWN 1 -->
+      <div class="showdown">
+        <div class="showdown-title">⚔️ Showdown: providedIn: 'root' vs Component Providers</div>
+        <table class="tbl">
+          <tr><th>Feature</th><th>providedIn: 'root'</th><th>Component Providers</th></tr>
+          <tr><td>Instance Scope</td><td>Application-wide Singleton.</td><td>Scoped to the component instance and its children.</td></tr>
+          <tr><td>Tree Shaking</td><td>Yes. Removed from the bundle if never injected.</td><td>No. Bundled if the component is imported.</td></tr>
+          <tr><td>Use Case</td><td>Shared state services, API communication classes.</td><td>Sandbox state services, form configurations.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 5 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 05</div>
+    <h2>Reactive Forms &amp; Custom Validators</h2>
+    <p class="ch-desc">Learn how to build forms, handle user input, and write custom validation logic using Reactive Forms.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>5.1 Reactive Forms and FormBuilder</h3>
+      <p>Reactive Forms provide a type-safe, explicit way to manage form state and validation logic.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">form.component.ts</span></div>
+        <pre><span class="kw">import</span> { Component } <span class="kw">from</span> '@angular/core';
+<span class="kw">import</span> { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } <span class="kw">from</span> '@angular/forms';
+
+@Component({
+  selector: 'app-profile-form',
+  standalone: <span class="kw">true</span>,
+  template: `
+    &lt;form [formGroup]="userForm" (ngSubmit)="onSubmit()"&gt;
+      &lt;input formControlName="email" type="email" placeholder="Email" /&gt;
+      &lt;button type="submit" [disabled]="userForm.invalid"&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  `
+})
+<span class="kw">export class</span> <span class="cls">ProfileFormComponent</span> {
+  userForm: <span class="cls">FormGroup</span>;
+
+  <span class="fn">constructor</span>(<span class="kw">private</span> <span class="vr">fb</span>: <span class="cls">FormBuilder</span>) {
+    <span class="kw">this</span>.userForm <span class="op">=</span> <span class="kw">this</span>.fb.<span class="fn">group</span>({
+      email: ['', [Validators.required, Validators.email, <span class="kw">this</span>.customDomainValidator]]
+    });
+  }
+
+  /* Custom Validator Function */
+  <span class="fn">customDomainValidator</span>(<span class="vr">control</span>: <span class="cls">AbstractControl</span>): <span class="cls">ValidationErrors</span> | <span class="kw">null</span> {
+    <span class="kw">const</span> <span class="vr">email</span> <span class="op">=</span> <span class="vr">control</span>.value <span class="kw">as</span> <span class="kw">string</span>;
+    <span class="kw">if</span> (<span class="vr">email</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="vr">email</span>.<span class="fn">endsWith</span>('@store.com')) {
+      <span class="kw">return</span> { invalidDomain: <span class="kw">true</span> };
+    }
+    <span class="kw">return</span> <span class="kw">null</span>;
+  }
+
+  <span class="fn">onSubmit</span>() {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">this</span>.userForm.value);
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 6 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 06</div>
+    <h2>Angular Router &amp; Navigation Guards</h2>
+    <p class="ch-desc">Learn how to configure routing, set up lazy loading, and protect routes using navigation guards.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>6.1 Navigation Guards</h3>
+      <p>Routing guards allow you to control access to routes based on conditions (like user authentication status).</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">auth-guard.ts</span></div>
+        <pre><span class="kw">import</span> { inject } <span class="kw">from</span> '@angular/core';
+<span class="kw">import</span> { CanActivateFn, Router } <span class="kw">from</span> '@angular/router';
+<span class="kw">import</span> { AuthService } <span class="kw">from</span> './auth.service';
+
+// Functional CanActivate guard
+<span class="kw">export const</span> <span class="vr">authGuard</span>: <span class="cls">CanActivateFn</span> <span class="op">=</span> (<span class="vr">route</span>, <span class="vr">state</span>) <span class="op">=&gt;</span> {
+  <span class="kw">const</span> <span class="vr">authService</span> <span class="op">=</span> <span class="fn">inject</span>(<span class="cls">AuthService</span>);
+  <span class="kw">const</span> <span class="vr">router</span> <span class="op">=</span> <span class="fn">inject</span>(<span class="cls">Router</span>);
+
+  <span class="kw">if</span> (<span class="vr">authService</span>.<span class="fn">isLoggedIn</span>()) {
+    <span class="kw">return</span> <span class="kw">true</span>;
+  }
+  
+  <span class="kw">return</span> <span class="vr">router</span>.<span class="fn">parseUrl</span>('/login');
+};</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 7 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 07</div>
+    <h2>HTTP Communication &amp; Interceptors</h2>
+    <p class="ch-desc">Learn how to send network requests, parse JSON data, and configure interceptors to modify request and response headers.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>7.1 HttpInterceptors</h3>
+      <p>Interceptors intercept and modify outgoing HTTP requests and incoming responses globally (for tasks like injecting authorization headers or logging errors).</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">auth.interceptor.ts</span></div>
+        <pre><span class="kw">import</span> { HttpInterceptorFn, HttpRequest, HttpHandlerFn } <span class="kw">from</span> '@angular/common/http';
+
+// Functional HttpInterceptor
+<span class="kw">export const</span> <span class="vr">authInterceptor</span>: <span class="cls">HttpInterceptorFn</span> <span class="op">=</span> (<span class="vr">req</span>: <span class="cls">HttpRequest</span>&lt;<span class="kw">unknown</span>&gt;, <span class="vr">next</span>: <span class="cls">HttpHandlerFn</span>) <span class="op">=&gt;</span> {
+  <span class="kw">const</span> <span class="vr">token</span> <span class="op">=</span> <span class="fn">localStorage</span>.getItem('authToken');
+  
+  <span class="kw">if</span> (<span class="vr">token</span>) {
+    // Clone request to inject headers
+    <span class="kw">const</span> <span class="vr">clonedReq</span> <span class="op">=</span> <span class="vr">req</span>.<span class="fn">clone</span>({
+      headers: <span class="vr">req</span>.headers.<span class="fn">set</span>('Authorization', 'Bearer ' + <span class="vr">token</span>)
+    });
+    <span class="kw">return</span> <span class="fn">next</span>(<span class="vr">clonedReq</span>);
+  }
+  
+  <span class="kw">return</span> <span class="fn">next</span>(<span class="vr">req</span>);
+};</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 8 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 08</div>
+    <h2>RxJS &amp; Functional Reactive Programming</h2>
+    <p class="ch-desc">Learn about RxJS observables, operator pipelines, and how to handle data reactive flows in Angular.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>8.1 Subjects vs BehaviorSubjects</h3>
+      <p>RxJS Subjects are multicast observables that allow values to be broadcast to multiple observers.</p>
+      
+      <table class="tbl">
+        <tr><th>Observable Type</th><th>Behavior</th><th>Use Case</th></tr>
+        <tr><td><code>Subject</code></td><td>Does not store values. Observers only receive values emitted *after* subscription.</td><td>Event emitters, click streams.</td></tr>
+        <tr><td><code>BehaviorSubject</code></td><td>Requires a default value. Stores the latest emitted value and replays it to new observers immediately upon subscription.</td><td>Shared state services, user profiles.</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 9 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 09</div>
+    <h2>Change Detection: Default vs OnPush</h2>
+    <p class="ch-desc">Learn about the OnPush change detection strategy, which optimizes rendering by only checking templates when inputs update.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>9.1 ChangeDetectionStrategy.OnPush</h3>
+      <p>By default, Angular dirty checks the entire component tree on any asynchronous event. Setting "changeDetection: ChangeDetectionStrategy.OnPush" limits change detection for that component to three conditions:</p>
+      <ul>
+        <li>Upstream "@Input" bindings change.</li>
+        <li>An event handler in the component template fires.</li>
+        <li>An observable bound in the template with the "async" pipe emits a new value.</li>
+      </ul>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">onpush.component.ts</span></div>
+        <pre><span class="kw">import</span> { Component, ChangeDetectionStrategy, Input } <span class="kw">from</span> '@angular/core';
+
+@Component({
+  selector: 'app-performance-view',
+  standalone: <span class="kw">true</span>,
+  changeDetection: <span class="cls">ChangeDetectionStrategy</span>.OnPush,
+  template: '&lt;p&gt;Status: {{ data.status }}&lt;/p&gt;'
+})
+<span class="kw">export class</span> <span class="cls">PerformanceViewComponent</span> {
+  @Input() data!: { status: <span class="kw">string</span> };
+}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 10 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 10</div>
+    <h2>Unit Testing Components &amp; Mock Services</h2>
+    <p class="ch-desc">Learn how to write unit tests for components and mock dependencies using the Angular TestBed.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>10.1 Component Testing with TestBed</h3>
+      <p>The Angular TestBed configures dependencies and compiles components in a mock environment for testing.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">app.component.spec.ts</span></div>
+        <pre><span class="kw">import</span> { TestBed, ComponentFixture } <span class="kw">from</span> '@angular/core/testing';
+<span class="kw">import</span> { CounterComponent } <span class="kw">from</span> './counter.component';
+
+<span class="fn">describe</span>('CounterComponent', () => {
+  <span class="kw">let</span> <span class="vr">component</span>: <span class="cls">CounterComponent</span>;
+  <span class="kw">let</span> <span class="vr">fixture</span>: <span class="cls">ComponentFixture</span>&lt;<span class="cls">CounterComponent</span>&gt;;
+
+  <span class="fn">beforeEach</span>(<span class="kw">async</span> () => {
+    <span class="kw">await</span> <span class="cls">TestBed</span>.<span class="fn">configureTestingModule</span>({
+      imports: [CounterComponent]
+    }).<span class="fn">compileComponents</span>();
+
+    <span class="vr">fixture</span> <span class="op">=</span> <span class="cls">TestBed</span>.<span class="fn">createComponent</span>(<span class="cls">CounterComponent</span>);
+    <span class="vr">component</span> <span class="op">=</span> <span class="vr">fixture</span>.componentInstance;
+    <span class="vr">fixture</span>.<span class="fn">detectChanges</span>();
+  });
+
+  <span class="fn">it</span>('should create the component', () => {
+    <span class="fn">expect</span>(<span class="vr">component</span>).<span class="fn">toBeTruthy</span>();
+  });
+});</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PRINT FOOTER ==================== -->
+<div class="print-cta">
+  <p style="font-size:15px;color:var(--text-light);margin-bottom:16px;">
+    To save this document as a PDF, press <strong>Ctrl+P</strong> (Windows) or <strong>&#8984;+P</strong> (Mac) and choose <strong>"Save as PDF"</strong>.
+  </p>
+  <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+</div>
+
+</body>
+</html>

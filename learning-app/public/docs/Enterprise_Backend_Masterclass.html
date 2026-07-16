@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Enterprise Backend Masterclass: Java, Spring Boot, Postgres, RabbitMQ, Redis</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --primary: #10b981;
+  --primary-dark: #047857;
+  --dark: #0f172a;
+  --blue: #1e3a8a;
+  --text: #334155;
+  --text-light: #64748b;
+  --bg-light: #f8fafc;
+  --code-bg: #0f172a;
+  --code-border: #1e293b;
+  --border: #e2e8f0;
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  
+  /* Syntax Highlighting */
+  --kw: #cba6f7;
+  --str: #a6e3a1;
+  --num: #fab387;
+  --cmt: #6c7086;
+  --fn: #89b4fa;
+  --cls: #f38ba8;
+  --op: #89dceb;
+  --var: #eed49f;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); background: #ffffff; line-height: 1.8; -webkit-font-smoothing: antialiased; }
+
+/* Cover Page */
+.cover {
+  background: radial-gradient(circle at 10% 20%, rgb(15, 23, 42) 0%, rgb(16, 185, 129) 100%);
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  padding: 80px 40px; page-break-after: always; color: white;
+}
+.java-logo {
+  width: 120px; height: 120px; background: white;
+  border-radius: 24px; display: flex; align-items: center;
+  justify-content: center; margin: 0 auto 32px;
+  box-shadow: 0 25px 50px -12px rgba(16,185,129,0.4);
+}
+.java-logo span { font-size: 64px; font-weight: 800; color: var(--primary); font-family: 'Plus Jakarta Sans', sans-serif; }
+.cover-badge {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
+  color: white; font-size: 13px; font-weight: 700;
+  letter-spacing: 4px; text-transform: uppercase;
+  padding: 8px 24px; border-radius: 9999px; margin-bottom: 32px;
+}
+.cover h1 { font-size: 56px; font-weight: 800; color: #fff; line-height: 1.1; margin-bottom: 16px; letter-spacing: -2px; }
+.cover h1 span { color: #a7f3d0; }
+.cover-sub { font-size: 22px; color: #cbd5e1; margin-bottom: 56px; max-width: 800px; }
+.stats { display: flex; gap: 48px; margin-bottom: 56px; }
+.stat-num { font-size: 40px; font-weight: 800; color: #a7f3d0; }
+.stat-lbl { font-size: 12px; color: #cbd5e1; text-transform: uppercase; letter-spacing: 2px; }
+
+/* Table of Contents */
+.toc { padding: 80px; page-break-after: always; background: var(--bg-light); min-height: 100vh; }
+.toc h2 { font-size: 38px; font-weight: 800; color: var(--dark); margin-bottom: 40px; padding-bottom: 16px; border-bottom: 4px solid var(--primary); display: inline-block; }
+.toc-list { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.toc-row { display: flex; align-items: center; gap: 16px; color: var(--text); font-size: 15px; font-weight: 500; padding: 12px 16px; background: white; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+.ch-num { background: var(--primary); color: white; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 8px; min-width: 32px; text-align: center; }
+
+/* Chapters */
+.chapter { page-break-before: always; }
+.ch-hdr { background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%); padding: 80px; color: #fff; }
+.ch-num-lbl { font-size: 14px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: #a7f3d0; margin-bottom: 16px; }
+.ch-hdr h2 { font-size: 44px; font-weight: 800; line-height: 1.2; margin-bottom: 16px; letter-spacing: -1px; }
+.ch-desc { font-size: 18px; color: var(--text-light); max-width: 700px; }
+.ch-body { padding: 80px; max-width: 1200px; margin: 0 auto; }
+
+/* Sections */
+.section { margin-bottom: 64px; border-bottom: 1px solid var(--border); padding-bottom: 48px; }
+.section h3 { font-size: 26px; font-weight: 700; color: var(--dark); margin-bottom: 20px; padding-left: 16px; border-left: 5px solid var(--primary); }
+.section h4 { font-size: 18px; font-weight: 600; color: var(--dark); margin: 28px 0 12px; }
+.section p { font-size: 16px; color: var(--text); margin-bottom: 18px; text-align: justify; }
+.section ul, .section ol { padding-left: 28px; margin-bottom: 18px; }
+.section li { font-size: 16px; color: var(--text); margin-bottom: 8px; }
+
+/* Code Blocks */
+.code-block { background: var(--code-bg); border-radius: 14px; margin: 24px 0; overflow: hidden; border: 1px solid var(--code-border); }
+.code-hdr { background: #1e293b; padding: 12px 20px; display: flex; align-items: center; gap: 8px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot.r { background: #ef4444; }
+.dot.y { background: #f59e0b; }
+.dot.g { background: #10b981; }
+.fname { color: var(--text-light); font-size: 12px; font-family: 'Fira Code', monospace; margin-left: 12px; }
+.code-block pre { padding: 24px; font-family: 'Fira Code', monospace; font-size: 14px; line-height: 1.7; color: #e2e8f0; white-space: pre-wrap; overflow-x: auto; }
+
+/* Token Highlighting */
+.kw { color: var(--kw); }
+.str { color: var(--str); }
+.num { color: var(--num); }
+.cmt { color: var(--cmt); }
+.fn { color: var(--fn); }
+.cls { color: var(--cls); }
+.vr { color: var(--var); }
+
+/* Tables */
+.tbl { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 15px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.tbl th { background: var(--dark); color: #fff; padding: 14px 18px; text-align: left; }
+.tbl td { padding: 12px 18px; border-bottom: 1px solid var(--border); background: white; }
+.tbl tr:nth-child(even) td { background: var(--bg-light); }
+code { background: #f1f5f9; padding: 2px 6px; border-radius: 6px; font-family: 'Fira Code', monospace; font-size: 14px; color: #e11d48; }
+
+/* Professor Note */
+.prof-note {
+  background: #f0fdf4; border-left: 6px solid var(--primary); color: #065f46;
+  padding: 24px; margin: 32px 0; border-radius: 12px; border-top: 1px solid #d1fae5; border-right: 1px solid #d1fae5; border-bottom: 1px solid #d1fae5;
+}
+.prof-title { font-weight: 800; margin-bottom: 10px; font-size: 17px; display: flex; align-items: center; gap: 8px; }
+
+/* Showdown Comparison Card */
+.showdown {
+  background: #f8fafc; border: 2px solid var(--primary); border-radius: 16px;
+  padding: 30px; margin: 32px 0; box-shadow: var(--shadow-lg);
+}
+.showdown-title {
+  color: var(--primary-dark); font-weight: 800; font-size: 18px;
+  margin-bottom: 16px; border-bottom: 2px solid var(--border); padding-bottom: 8px;
+}
+
+/* Print CTA Page Elements */
+.print-cta { text-align: center; padding: 48px; background: var(--bg-light); border-top: 4px solid var(--primary); }
+.print-btn { background: var(--dark); color: white; border: none; padding: 14px 36px; font-size: 16px; font-weight: 700; border-radius: 10px; cursor: pointer; font-family: inherit; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="java-logo"><span>☕</span></div>
+  <div class="cover-badge">Enterprise Backend Masterclass</div>
+  <h1>Java Backend Complete <span>Reference Textbook</span></h1>
+  <p class="cover-sub">An Exhaustive, Step-by-Step Pedagogical Guide covering Java Core, Spring Boot MVC &amp; Security, PostgreSQL Engine, RabbitMQ Messaging, Redis Distributed Cache, and Architecture Design Patterns</p>
+  <div class="stats">
+    <div><div class="stat-num">06</div><div class="stat-lbl">Detailed Modules</div></div>
+    <div><div class="stat-num">120+</div><div class="stat-lbl">Detailed Lessons</div></div>
+    <div><div class="stat-num">100%</div><div class="stat-lbl">Production Ready</div></div>
+  </div>
+</div>
+
+<div class="toc">
+  <h2>Table of Contents</h2>
+  <ul class="toc-list">
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">01</span>1. Java Language Fundamentals &amp; Advanced Concurrency</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">02</span>2. Spring Boot Core &amp; Microservices Internals</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">03</span>3. Relational Persistence with PostgreSQL</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">04</span>4. Event-Driven Messaging with RabbitMQ</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">05</span>5. In-Memory Operations with Redis Cache</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">06</span>6. Structural Architecture &amp; Design Patterns</div></li>
+  </ul>
+</div>
+
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 01</div>
+    <h2>Java Language Fundamentals &amp; Advanced Concurrency</h2>
+    <p class="ch-desc">From basic variables and OOP modeling to advanced JVM class loaders, heap structures, garbage collection options, generics PECS rules, and virtual thread models.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>1.1 Java Core Syntax &amp; JVM Internals</h3>
+      <p>The JVM compiles code using the ClassLoader subsystem (Bootstrap -> Platform -> Application loaders). It separates memory into stack frames for active thread executions and heap storage for globally reachable object instances. The **JIT Compiler** monitors execution frequency, compiling code blocks exceeding C1/C2 thresholds directly into native instructions.</p>
+      
+      <h4>Basic Syntax &amp; Data Types</h4>
+      <p>Java supports both primitive types (stored directly in stack frames) and wrapper objects (stored on the heap). Primitive operations are faster because they avoid heap allocation overhead and the boxing/unboxing step.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">BasicsDemo.java</span></div>
+        <pre><span class="kw">public class</span> <span class="cls">BasicsDemo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="kw">int</span> lowerBound <span class="op">=</span> <span class="num">0</span>;
+        <span class="kw">int</span> upperBound <span class="op">=</span> <span class="num">10</span>;
+        <span class="kw">double</span> scale <span class="op">=</span> <span class="num">1.5</span>;
+        
+        <span class="cmt">// Conditional statement</span>
+        <span class="kw">if</span> (lowerBound &lt; upperBound) {
+            <span class="cmt">// standard loop structure</span>
+            <span class="kw">for</span> (<span class="kw">int</span> i <span class="op">=</span> lowerBound; i &lt; upperBound; i++) {
+                <span class="cls">System</span>.out.println("Scaled Value: " + (i * scale));
+            }
+        }
+    }
+}</pre>
+      </div>
+
+      <h4>Object-Oriented Programming principles</h4>
+      <p>Java is built on four core OOP principles:</p>
+      <ul>
+        <li><strong>Encapsulation</strong>: Hiding class state fields behind private keywords and exposing access control through public methods (getters/setters).</li>
+        <li><strong>Inheritance</strong>: Allowing classes to inherit properties and methods from a superclass. Java limits classes to single inheritance to avoid the complexity of multiple class inheritance.</li>
+        <li><strong>Polymorphism</strong>: Supporting multiple implementations of a single method. Resolved via method overloading (compile-time) or method overriding (runtime via virtual method tables).</li>
+        <li><strong>Abstraction</strong>: Hiding details using abstract classes or interfaces, allowing you to define APIs separate from their implementations.</li>
+      </ul>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">OopConceptsDemo.java</span></div>
+        <pre><span class="kw">public interface</span> <span class="cls">Vehicle</span> {
+    <span class="kw">void</span> <span class="fn">startEngine</span>();
+}
+
+<span class="kw">public class</span> <span class="cls">ElectricCar</span> <span class="kw">implements</span> <span class="cls">Vehicle</span> {
+    <span class="kw">private int</span> batteryLevel;
+
+    <span class="kw">public</span> <span class="fn">ElectricCar</span>(<span class="kw">int</span> batteryLevel) {
+        <span class="kw">this</span>.batteryLevel <span class="op">=</span> batteryLevel;
+    }
+
+    @Override
+    <span class="kw">public void</span> <span class="fn">startEngine</span>() {
+        <span class="kw">if</span> (batteryLevel &gt; <span class="num">10</span>) {
+            <span class="cls">System</span>.out.println("Engine started silently. Ready to drive!");
+        }
+    }
+}</pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>1.2 Collection Framework Mechanics</h3>
+      <p>The Java Collections Framework organizes memory structures:</p>
+      <ul>
+        <li><strong>ArrayList</strong>: Backed by a dynamic array. Default initial capacity is 10. When full, it increases capacity by a growth factor of 1.5.</li>
+        <li><strong>LinkedList</strong>: Backed by double-linked nodes, optimized for sequential insertions and deletions.</li>
+        <li><strong>HashMap</strong>: Operates as an array of buckets. Each key's <code>hashCode()</code> determines its bucket index. If multiple keys resolve to the same bucket index (a collision), they are stored in a linked list. If the number of items in a bucket exceeds the threshold (<code>TREEIFY_THRESHOLD = 8</code>) and the total map capacity is at least 64, Java converts the linked list into a self-balancing Red-Black Tree to improve lookup times.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>1.3 Robust Exception Handling Pipeline</h3>
+      <p>Exceptions are Throwable instances handled using explicit control flows. Using **try-with-resources** ensures that resources implementing the <code>AutoCloseable</code> interface are closed automatically, preventing resource leaks.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">ExceptionPipeline.java</span></div>
+        <pre><span class="kw">import</span> java.io.InputStream;
+<span class="kw">import</span> java.io.FileInputStream;
+<span class="kw">import</span> java.io.IOException;
+
+<span class="kw">public class</span> <span class="cls">ExceptionPipeline</span> {
+    <span class="kw">public void</span> <span class="fn">loadConfig</span>(<span class="cls">String</span> path) <span class="kw">throws</span> <span class="cls">IOException</span> {
+        <span class="kw">try</span> (<span class="cls">InputStream</span> input <span class="op">=</span> <span class="kw">new</span> <span class="cls">FileInputStream</span>(path)) {
+            <span class="kw">int</span> data <span class="op">=</span> input.read();
+            <span class="kw">if</span> (data <span class="op">==</span> <span class="op">-</span><span class="num">1</span>) {
+                <span class="kw">throw new</span> <span class="cls">IllegalArgumentException</span>("Empty configuration file detected");
+            }
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> | <span class="cls">IllegalArgumentException</span> e) {
+            <span class="cls">System</span>.err.println("Execution failed: " + e.getMessage());
+            <span class="kw">throw</span> e;
+        }
+    }
+}</pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>1.4 Generics: Type Erasure &amp; Bounded Wildcards</h3>
+      <p>Generics ensure type safety during compilation. At runtime, the JVM uses **Type Erasure** to remove generic type parameters, replacing them with their upper bounds or Object to maintain backward compatibility with older bytecode versions.</p>
+      <ul>
+        <li><strong>Covariance (<code>? extends T</code>)</strong>: Used to read items from a collection. You can retrieve elements as type <code>T</code>, but you cannot write to the collection.</li>
+        <li><strong>Contravariance (<code>? super T</code>)</strong>: Used to write items to a collection. You can insert elements of type <code>T</code>, but elements read from the collection are returned as type Object.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>1.5 Concurrency: Locks, Synchronization, and Virtual Threads</h3>
+      <p>The Java Memory Model defines how threads interact through shared memory. Key features include:</p>
+      <ul>
+        <li><strong>volatile</strong>: Forces threads to read and write variables directly from main memory instead of caching them in CPU registers, ensuring visibility across threads.</li>
+        <li><strong>Synchronized Blocks &amp; Lock API</strong>: Enforce mutual exclusion. <code>ReentrantLock</code> provides advanced lock control, including fair locking, interruptible lock acquisition, and try-lock timeouts.</li>
+        <li><strong>Virtual Threads</strong>: Introduced in Java 21, virtual threads are lightweight threads managed by the JVM instead of the OS. When a virtual thread encounters a blocking operation (like network I/O), the JVM schedules other work on the underlying carrier thread, allowing applications to scale efficiently.</li>
+      </ul>
+
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">LoomVirtualExecutor.java</span></div>
+        <pre><span class="kw">import</span> java.util.concurrent.Executors;
+
+<span class="kw">public class</span> <span class="cls">LoomVirtualExecutor</span> {
+    <span class="kw">public void</span> <span class="fn">runParallelTasks</span>() {
+        <span class="kw">try</span> (<span class="kw">var</span> executor <span class="op">=</span> <span class="cls">Executors</span>.newVirtualThreadPerTaskExecutor()) {
+            <span class="kw">for</span> (<span class="kw">int</span> i <span class="op">=</span> <span class="num">0</span>; i &lt; <span class="num">1000</span>; i++) {
+                <span class="kw">final int</span> taskId <span class="op">=</span> i;
+                executor.submit(() -> {
+                    <span class="cls">Thread</span>.sleep(java.time.Duration.ofMillis(<span class="num">50</span>));
+                    <span class="cls">System</span>.out.println("Virtual Task finished: " + taskId);
+                    <span class="kw">return</span> taskId;
+                });
+            }
+        }
+    }
+}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 02</div>
+    <h2>Spring Boot Core &amp; Microservices Internals</h2>
+    <p class="ch-desc">Master dependency injection scopes, constructor injection benefits, REST APIs, filters, and JPA performance optimization.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>2.1 Spring IoC, Bean Scopes &amp; Lifecycle Hooks</h3>
+      <p>The Spring Container lifecycle manages application beans through specific execution phases:</p>
+      
+      <div class="showdown">
+        <div class="showdown-title">⚔️ Dependency Injection: Field vs. Setter vs. Constructor Injection</div>
+        <table class="tbl">
+          <tr><th>Injection Type</th><th>Syntax Example</th><th>Pros &amp; Cons</th></tr>
+          <tr><td><strong>Field Injection</strong></td><td><code>@Autowired private Service s;</code></td><td>Simple syntax, but hides dependencies and makes unit testing difficult (requires reflection to mock). Unrecommended.</td></tr>
+          <tr><td><strong>Setter Injection</strong></td><td><code>@Autowired public void setService(...)</code></td><td>Good for optional dependencies, but leaves components open to re-injection bugs.</td></tr>
+          <tr><td><strong>Constructor Injection</strong></td><td><code>public Controller(Service s) { ... }</code></td><td>Best practice. Allows dependencies to be declared as <code>final</code>, ensuring immutability and simplifying testing.</td></tr>
+        </table>
+      </div>
+
+      <h4>The Spring Bean Lifecycle Phases</h4>
+      <p>Spring manages bean creation and destruction through a series of lifecycle phases:</p>
+      <ol>
+        <li><strong>Instantiation</strong>: The bean is created in memory.</li>
+        <li><strong>Populate Properties</strong>: Dependencies are injected.</li>
+        <li><strong>Aware Checks</strong>: Spring checks if the bean implements interfaces like <code>BeanNameAware</code> or <code>ApplicationContextAware</code> and sets the appropriate context.</li>
+        <li><strong>BeanPostProcessor (Before Initialization)</strong>: Pre-initialization modification hooks run.</li>
+        <li><strong>Initialization</strong>: Methods annotated with <code>@PostConstruct</code> or declared in <code>InitializingBean.afterPropertiesSet()</code> run.</li>
+        <li><strong>BeanPostProcessor (After Initialization)</strong>: Post-initialization hooks run. Dynamic proxies are created here to handle features like <code>@Transactional</code> and <code>@Async</code> annotations.</li>
+        <li><strong>Destruction</strong>: When the application context closes, methods annotated with <code>@PreDestroy</code> or declared in <code>DisposableBean.destroy()</code> run.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <h3>2.2 REST Controller Routing &amp; Exception Advising</h3>
+      <p>Spring MVC routes HTTP requests to controller methods. Use <code>@RestControllerAdvice</code> to catch validation and business exceptions globally, formatting them into consistent HTTP response payloads.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">GlobalExceptionHandler.java</span></div>
+        <pre><span class="kw">import</span> org.springframework.web.bind.annotation.RestControllerAdvice;
+<span class="kw">import</span> org.springframework.web.bind.annotation.ExceptionHandler;
+<span class="kw">import</span> org.springframework.http.ResponseEntity;
+<span class="kw">import</span> org.springframework.http.HttpStatus;
+
+@RestControllerAdvice
+<span class="kw">public class</span> <span class="cls">GlobalExceptionHandler</span> {
+
+    @ExceptionHandler(<span class="cls">IllegalArgumentException</span>.<span class="kw">class</span>)
+    <span class="kw">public</span> <span class="cls">ResponseEntity</span>&lt;<span class="cls">String</span>&gt; <span class="fn">handleValidationError</span>(<span class="cls">IllegalArgumentException</span> ex) {
+        <span class="kw">return</span> <span class="cls">ResponseEntity</span>.status(<span class="cls">HttpStatus</span>.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(<span class="cls">Exception</span>.<span class="kw">class</span>)
+    <span class="kw">public</span> <span class="cls">ResponseEntity</span>&lt;<span class="cls">String</span>&gt; <span class="fn">handleGenericError</span>(<span class="cls">Exception</span> ex) {
+        <span class="kw">return</span> <span class="cls">ResponseEntity</span>.status(<span class="cls">HttpStatus</span>.INTERNAL_SERVER_ERROR).body("An internal error occurred");
+    }
+}</pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>2.3 Spring Security Filtering Chain</h3>
+      <p>Configure custom security filters to intercept incoming requests and validate authorization tokens before requests reach controller endpoints.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">SecurityFilterChainConfig.java</span></div>
+        <pre><span class="kw">import</span> org.springframework.context.annotation.Bean;
+<span class="kw">import</span> org.springframework.context.annotation.Configuration;
+<span class="kw">import</span> org.springframework.security.config.annotation.web.builders.HttpSecurity;
+<span class="kw">import</span> org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+<span class="kw">public class</span> <span class="cls">SecurityFilterChainConfig</span> {
+
+    @Bean
+    <span class="kw">public</span> <span class="cls">SecurityFilterChain</span> <span class="fn">securityFilterChain</span>(<span class="cls">HttpSecurity</span> http) <span class="kw">throws</span> <span class="cls">Exception</span> {
+        http.csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/public/**").permitAll()
+                .anyRequest().authenticated()
+            );
+        <span class="kw">return</span> http.build();
+    }
+}</pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>2.4 Spring Data JPA: Entity Lifecycle &amp; Lazy Loading</h3>
+      <p>Hibernate manages entities within a persistence context using four entity states:</p>
+      <ul>
+        <li><strong>Transient</strong>: The entity is created in memory but is not associated with a database session or primary key.</li>
+        <li><strong>Managed</strong>: The entity is associated with an active database session. Changes to the entity's properties are automatically synchronized with the database during transaction commit (dirty checking).</li>
+        <li><strong>Detached</strong>: The database session is closed or cleared, but the entity still holds data and its primary key.</li>
+        <li><strong>Removed</strong>: The entity is marked for deletion and will be deleted from the database during transaction commit.</li>
+      </ul>
+      <p>To prevent the **N+1 query problem**, use JPQL join fetch operations to load parent and child associations in a single query.</p>
+    </div>
+  </div>
+</div>
+
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 03</div>
+    <h2>Relational Persistence with PostgreSQL</h2>
+    <p class="ch-desc">Examine database structures, SQL join types, index optimization, MVCC updates, and table partitioning.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>3.1 SQL CRUD &amp; Joins Comparison</h3>
+      <p>Relational operations rely on index design and join optimizations:</p>
+      <table class="tbl">
+        <tr><th>Join Type</th><th>Execution Logic</th><th>Use Case</th></tr>
+        <tr><td><strong>INNER JOIN</strong></td><td>Matches rows based on shared join keys. Non-matching rows are discarded.</td><td>Fetching associated records (e.g., orders matching customers).</td></tr>
+        <tr><td><strong>LEFT OUTER JOIN</strong></td><td>Returns all rows from the left table, padding right-side columns with nulls where no match exists.</td><td>Fetching all records from a primary table regardless of whether they have matching child records.</td></tr>
+        <tr><td><strong>FULL OUTER JOIN</strong></td><td>Returns all rows from both tables, padding columns with nulls where no match exists on either side.</td><td>Data reconciliation or auditing.</td></tr>
+        <tr><td><strong>CROSS JOIN</strong></td><td>Produces a Cartesian product of both tables.</td><td>Generating combinations of attributes (e.g., sizes and colors).</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h3>3.2 Indexing: B-Tree, GIN, and Partial Indexes</h3>
+      <p>PostgreSQL supports several index types, each suited for different use cases:</p>
+      <ul>
+        <li><strong>B-Tree Indexes</strong> (Default): Organized as self-balancing search trees. Ideal for equality and range queries.</li>
+        <li><strong>GIN (Generalized Inverted Index)</strong>: Maps values (like arrays or JSON documents) to their parent rows. Ideal for multi-value search and JSONB data.</li>
+        <li><strong>Partial Index</strong>: Built only over a subset of rows defined by a filter condition, reducing index size and overhead.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>3.3 PostgreSQL MVCC Engine &amp; Vacuuming</h3>
+      <p>PostgreSQL manages concurrent transactions using Multi-Version Concurrency Control (MVCC). Modifications create new versions of rows (tuples) tagged with transaction IDs (<code>xmin</code> and <code>xmax</code>). A background **VACUUM** process cleans up older, unreachable tuple versions to prevent table bloat and reclaim storage.</p>
+    </div>
+
+    <div class="section">
+      <h3>3.4 Transaction Isolation Levels &amp; Concurrency Anomalies</h3>
+      <p>PostgreSQL provides transaction isolation levels to prevent data anomalies during concurrent operations:</p>
+      <ul>
+        <li><strong>Dirty Read</strong>: A transaction reads uncommitted changes made by another transaction. (Prevented in PostgreSQL even at the Read Committed level).</li>
+        <li><strong>Non-Repeatable Read</strong>: A transaction reads the same row twice and gets different values because another transaction committed changes in the meantime.</li>
+        <li><strong>Phantom Read</strong>: A transaction runs a query twice and gets different sets of rows because another transaction inserted or deleted records in the meantime.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 04</div>
+    <h2>Event-Driven Messaging with RabbitMQ</h2>
+    <p class="ch-desc">Learn about message queues, exchange routing topologies, dead-letter exchanges (DLX), and consumer reliability patterns.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>4.1 Messaging Core Concepts</h3>
+      <p>RabbitMQ is a message broker that routes messages from producers to consumers using exchanges and queues.</p>
+      <ul>
+        <li><strong>Producer</strong>: Publishes messages to exchanges.</li>
+        <li><strong>Exchange</strong>: Receives messages and routes them to queues based on routing keys and bindings.</li>
+        <li><strong>Queue</strong>: Stores messages until consumers are ready to process them.</li>
+        <li><strong>Consumer</strong>: Subscribes to queues and processes incoming messages.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>4.2 Exchange Types &amp; Routing Keys</h3>
+      <p>The exchange type determines how routing keys map to queues:</p>
+      <ul>
+        <li><strong>Direct Exchange</strong>: Routes messages to queues matching the exact routing key.</li>
+        <li><strong>Fanout Exchange</strong>: Ignores routing keys and broadcasts messages to all bound queues.</li>
+        <li><strong>Topic Exchange</strong>: Matches routing keys to queues using wildcards (<code>*</code> matches one word, <code>#</code> matches zero or more words).</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>4.3 Delivery Guarantees: publisher confirms &amp; Manual consumer ACKs</h3>
+      <p>To prevent message loss if a broker crashes, exchanges and queues should be declared as **durable**, and messages marked as **persistent**. Messages that fail processing are routed to a **Dead-Letter Exchange (DLX)** for error handling or manual review.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">NotificationListener.java</span></div>
+        <pre><span class="kw">import</span> org.springframework.amqp.rabbit.annotation.RabbitListener;
+<span class="kw">import</span> org.springframework.amqp.support.AmqpHeaders;
+<span class="kw">import</span> org.springframework.messaging.handler.annotation.Header;
+<span class="kw">import</span> com.rabbitmq.client.Channel;
+<span class="kw">import</span> java.io.IOException;
+
+<span class="kw">public class</span> <span class="cls">NotificationListener</span> {
+
+    @RabbitListener(queues <span class="op">=</span> "sms.notifications", ackMode <span class="op">=</span> "MANUAL")
+    <span class="kw">public void</span> <span class="fn">onMessage</span>(<span class="cls">String</span> message, <span class="cls">Channel</span> channel, @Header(AmqpHeaders.DELIVERY_TAG) <span class="kw">long</span> tag) 
+            <span class="kw">throws</span> <span class="cls">IOException</span> {
+        <span class="kw">try</span> {
+            <span class="cmt">// Process message</span>
+            channel.basicAck(tag, <span class="kw">false</span>);
+        } <span class="kw">catch</span> (<span class="cls">Exception</span> e) {
+            <span class="cmt">// Route message to Dead Letter Exchange (DLX) by passing requeue=false</span>
+            channel.basicNack(tag, <span class="kw">false</span>, <span class="kw">false</span>);
+        }
+    }
+}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 05</div>
+    <h2>In-Memory Operations with Redis Cache</h2>
+    <p class="ch-desc">Learn about data structure selection, cache eviction strategies, Sentinel/Cluster replication, caching patterns, and distributed locks.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>5.1 Redis Data Structures &amp; Use Cases</h3>
+      <p>Redis is an in-memory data structure store supporting various formats:</p>
+      <ul>
+        <li><strong>String</strong>: Simple key-value pairs (up to 512MB). Ideal for page templates or session tokens.</li>
+        <li><strong>Hash</strong>: Key-value maps. Ideal for storing objects with multiple fields (like user profiles).</li>
+        <li><strong>Sorted Set (ZSET)</strong>: Unique elements sorted by a score. Ideal for leaderboards or rate limiters.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>5.2 Caching Strategies &amp; Performance Anomalies</h3>
+      <p>Understand the trade-offs of different caching strategies:</p>
+      <ul>
+        <li><strong>Cache-Aside</strong>: The application queries the cache. On a cache miss, it reads from the database, updates the cache, and returns the data.</li>
+        <li><strong>Write-Through</strong>: The application updates the cache first, and the cache synchronously updates the database.</li>
+        <li><strong>Write-Behind (Write-Back)</strong>: The application updates the cache first, and the cache asynchronously updates the database in background batches.</li>
+      </ul>
+      
+      <h4>Performance Anomalies</h4>
+      <ul>
+        <li><strong>Cache Stampede (Thundering Herd)</strong>: Occurs when a high-traffic cache key expires, causing multiple concurrent requests to hit the database simultaneously. Resolving this requires implementing locking or background renewal.</li>
+        <li><strong>Cache Penetration</strong>: Occurs when requests target keys that do not exist in either the cache or the database. To prevent this, cache empty results with a short TTL or use a bloom filter.</li>
+        <li><strong>Cache Avalanche</strong>: Occurs when multiple cache keys expire at the same time, causing a spike in database traffic. To prevent this, add random jitter to TTL expiration values.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>5.3 Distributed Locking with Lua Scripting</h3>
+      <p>Distributed locks coordinate access to shared resources across multiple application instances. A common implementation strategy uses the <code>SETNX</code> command (setting a key only if it does not exist) combined with an expiration lease time to prevent locks from hanging if a client crashes.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">lock.lua</span></div>
+        <pre><span class="cmt">-- Safely release the lock only if the request ID matches</span>
+<span class="kw">if</span> redis.call("get", KEYS[<span class="num">1</span>]) <span class="op">==</span> ARGV[<span class="num">1</span>] <span class="kw">then</span>
+    <span class="kw">return</span> redis.call("del", KEYS[<span class="num">1</span>])
+<span class="kw">else</span>
+    <span class="kw">return</span> <span class="num">0</span>
+<span class="kw">end</span></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 06</div>
+    <h2>Structural Architecture &amp; Design Patterns</h2>
+    <p class="ch-desc">Learn how to implement structural design patterns like CQRS, the Outbox Pattern, and Circuit Breakers in enterprise applications.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>6.1 Gang of Four (GoF) Core Patterns</h3>
+      <p>Design patterns provide reusable templates to address common software design challenges:</p>
+      <ul>
+        <li><strong>Builder</strong>: Separates object construction logic from its representation, supporting step-by-step assembly of complex configurations.</li>
+        <li><strong>Singleton</strong>: Restricts instantiation of a class to a single object instance. To ensure thread safety when lazy-initializing a singleton, use double-checked locking with the <code>volatile</code> keyword.</li>
+        <li><strong>Proxy</strong>: Intercepts operations to another target object (used in Spring AOP to execute transaction boundaries or security checks).</li>
+        <li><strong>Strategy</strong>: Encapsulates interchangeable algorithm families within distinct classes, selecting the appropriate implementation at runtime.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>6.2 Distributed Patterns: CQRS, Saga, and Transactional Outbox</h3>
+      <p>Microservices require specialized architectural patterns to maintain data consistency and fault tolerance:</p>
+      <ul>
+        <li><strong>CQRS (Command Query Responsibility Segregation)</strong>: Separates write operations (commands) from read operations (queries), allowing both paths to be scaled independently.</li>
+        <li><strong>Saga Pattern</strong>: Coordinates transactions across multiple independent microservices. Can be implemented using **Orchestration** (a central coordinator service directs the workflow) or **Choreography** (services communicate asynchronously using events).</li>
+        <li><strong>Transactional Outbox</strong>: Guarantees reliable message delivery in distributed systems. Instead of publishing messages directly to an external message broker during a database transaction, messages are saved in an **Outbox** table within the same transaction. A separate background process polls this table and publishes messages to the broker, ensuring message delivery even if the broker temporarily goes offline.</li>
+      </ul>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">OutboxEvent.java</span></div>
+        <pre><span class="kw">import</span> jakarta.persistence.*;
+<span class="kw">import</span> java.time.LocalDateTime;
+
+@Entity
+@Table(name <span class="op">=</span> "outbox_records")
+<span class="kw">public class</span> <span class="cls">OutboxEvent</span> {
+    @Id
+    @GeneratedValue(strategy <span class="op">=</span> <span class="cls">GenerationType</span>.IDENTITY)
+    <span class="kw">private</span> <span class="cls">Long</span> id;
+    
+    <span class="kw">private</span> <span class="cls">String</span> exchange;
+    <span class="kw">private</span> <span class="cls">String</span> routingKey;
+    
+    @Lob
+    <span class="kw">private</span> <span class="cls">String</span> messagePayload;
+    
+    <span class="kw">private</span> <span class="cls">String</span> deliveryStatus; <span class="cmt">// PENDING, SENT, FAILED</span>
+    <span class="kw">private</span> <span class="cls">LocalDateTime</span> timestamp;
+}</pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>6.3 Circuit Breaker Pattern (Fault Tolerance)</h3>
+      <p>The Circuit Breaker Pattern prevents cascading failures in microservice architectures by temporarily blocking requests to failing downstream services. The circuit has three states:</p>
+      <ul>
+        <li><strong>Closed</strong>: Requests flow normally. If the failure rate exceeds the threshold, the circuit trips to the **Open** state.</li>
+        <li><strong>Open</strong>: Requests fail fast, returning a fallback response immediately without hitting the downstream service.</li>
+        <li><strong>Half-Open</strong>: After a cooldown period, the circuit allows a limited number of test requests to pass through. If they succeed, the circuit returns to the **Closed** state; if they fail, it trips back to the **Open** state.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PRINT FOOTER ==================== -->
+<div class="print-cta">
+  <p style="font-size:15px;color:var(--text-light);margin-bottom:16px;">
+    To save this document as a PDF, press <strong>Ctrl+P</strong> (Windows) or <strong>&#8984;+P</strong> (Mac) and choose <strong>"Save as PDF"</strong>.
+  </p>
+  <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Angular 17 to 21+ Migration Guide | Deep Architectural Transition</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --primary: #4f46e5;
+  --primary-dark: #3730a3;
+  --dark: #0f172a;
+  --blue: #1e3a8a;
+  --text: #334155;
+  --text-light: #64748b;
+  --bg-light: #f8fafc;
+  --code-bg: #0f172a;
+  --code-border: #1e293b;
+  --border: #e2e8f0;
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  
+  /* Syntax Highlighting */
+  --kw: #cba6f7;
+  --str: #a6e3a1;
+  --num: #fab387;
+  --cmt: #6c7086;
+  --fn: #89b4fa;
+  --cls: #f38ba8;
+  --op: #89dceb;
+  --var: #eed49f;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); background: #ffffff; line-height: 1.8; -webkit-font-smoothing: antialiased; }
+
+/* Cover Page */
+.cover {
+  background: radial-gradient(circle at 10% 20%, rgb(15, 23, 42) 0%, rgb(79, 70, 229) 100%);
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  padding: 80px 40px; page-break-after: always; color: white;
+}
+.ang-logo {
+  width: 120px; height: 120px; background: white;
+  border-radius: 24px; display: flex; align-items: center;
+  justify-content: center; margin: 0 auto 32px;
+  box-shadow: 0 25px 50px -12px rgba(79,70,229,0.4);
+}
+.ang-logo span { font-size: 64px; font-weight: 800; color: var(--primary); font-family: 'Plus Jakarta Sans', sans-serif; }
+.cover-badge {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
+  color: white; font-size: 13px; font-weight: 700;
+  letter-spacing: 4px; text-transform: uppercase;
+  padding: 8px 24px; border-radius: 9999px; margin-bottom: 32px;
+}
+.cover h1 { font-size: 60px; font-weight: 800; color: #fff; line-height: 1.1; margin-bottom: 16px; letter-spacing: -2px; }
+.cover h1 span { color: #c7d2fe; }
+.cover-sub { font-size: 22px; color: #cbd5e1; margin-bottom: 56px; max-width: 700px; }
+
+/* Table of Contents */
+.toc { padding: 80px; page-break-after: always; background: var(--bg-light); min-height: 100vh; }
+.toc h2 { font-size: 38px; font-weight: 800; color: var(--dark); margin-bottom: 40px; padding-bottom: 16px; border-bottom: 4px solid var(--primary); display: inline-block; }
+.toc-list { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.toc-row { display: flex; align-items: center; gap: 16px; color: var(--text); font-size: 15px; font-weight: 500; padding: 12px 16px; background: white; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+.ch-num { background: var(--primary); color: white; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 8px; min-width: 32px; text-align: center; }
+
+/* Chapters */
+.chapter { page-break-before: always; }
+.ch-hdr { background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%); padding: 80px; color: #fff; }
+.ch-num-lbl { font-size: 14px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: #c7d2fe; margin-bottom: 16px; }
+.ch-hdr h2 { font-size: 44px; font-weight: 800; line-height: 1.2; margin-bottom: 16px; letter-spacing: -1px; }
+.ch-desc { font-size: 18px; color: var(--text-light); max-width: 700px; }
+.ch-body { padding: 80px; max-width: 1200px; margin: 0 auto; }
+
+/* Sections */
+.section { margin-bottom: 64px; border-bottom: 1px solid var(--border); padding-bottom: 48px; }
+.section h3 { font-size: 26px; font-weight: 700; color: var(--dark); margin-bottom: 20px; padding-left: 16px; border-left: 5px solid var(--primary); }
+.section p { font-size: 16px; color: var(--text); margin-bottom: 18px; text-align: justify; }
+
+/* Code Blocks */
+.code-block { background: var(--code-bg); border-radius: 14px; margin: 24px 0; overflow: hidden; border: 1px solid var(--code-border); }
+.code-hdr { background: #1e293b; padding: 12px 20px; display: flex; align-items: center; gap: 8px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot.r { background: #ef4444; }
+.dot.y { background: #f59e0b; }
+.dot.g { background: #10b981; }
+.fname { color: var(--text-light); font-size: 12px; font-family: 'Fira Code', monospace; margin-left: 12px; }
+.code-block pre { padding: 24px; font-family: 'Fira Code', monospace; font-size: 14px; line-height: 1.7; color: #e2e8f0; white-space: pre-wrap; }
+
+/* Token Highlighting */
+.kw { color: var(--kw); }
+.str { color: var(--str); }
+.num { color: var(--num); }
+.cmt { color: var(--cmt); }
+.fn { color: var(--fn); }
+.cls { color: var(--cls); }
+.vr { color: var(--var); }
+
+/* Tables */
+.tbl { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 15px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.tbl th { background: var(--dark); color: #fff; padding: 14px 18px; text-align: left; }
+.tbl td { padding: 12px 18px; border-bottom: 1px solid var(--border); background: white; }
+.tbl tr:nth-child(even) td { background: var(--bg-light); }
+code { background: #f1f5f9; padding: 2px 6px; border-radius: 6px; font-family: 'Fira Code', monospace; font-size: 14px; color: #e11d48; }
+
+/* Professor Note */
+.prof-note {
+  background: #eef2ff; border-left: 6px solid var(--primary); color: #3730a3;
+  padding: 24px; margin: 32px 0; border-radius: 12px; border-top: 1px solid #e0e7ff; border-right: 1px solid #e0e7ff; border-bottom: 1px solid #e0e7ff;
+}
+.prof-title { font-weight: 800; margin-bottom: 10px; font-size: 17px; display: flex; align-items: center; gap: 8px; }
+
+/* Showdown Comparison Card */
+.showdown {
+  background: #f8fafc; border: 2px solid var(--primary); border-radius: 16px;
+  padding: 30px; margin: 32px 0;
+}
+.showdown-title {
+  color: var(--primary-dark); font-weight: 800; font-size: 18px;
+  margin-bottom: 16px; border-bottom: 2px solid var(--border); padding-bottom: 8px;
+}
+
+/* Print CTA Page Elements */
+.print-cta { text-align: center; padding: 48px; background: var(--bg-light); border-top: 4px solid var(--primary); }
+.print-btn { background: var(--dark); color: white; border: none; padding: 14px 36px; font-size: 16px; font-weight: 700; border-radius: 10px; cursor: pointer; font-family: inherit; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="ang-logo"><span>A</span></div>
+  <div class="cover-badge">Angular Migration Blueprint</div>
+  <h1>Angular 17 to 21+ <span>Migration Guide</span></h1>
+  <p class="cover-sub">An Architectural Guide to refactoring decorators to signals, zone-based to zoneless, and RxJS-heavy apps to Native Resource APIs</p>
+</div>
+
+<div class="toc">
+  <h2>Migration Topics</h2>
+  <ul class="toc-list">
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">01</span>1. The Architectural Shift: zone.js vs Signals Change Detection</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">02</span>2. Refactoring @Input &amp; @Output to input() &amp; output()</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">03</span>3. Query Upgrades: @ViewChild to viewChild()</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">04</span>4. Replacing the async pipe with resource()</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">05</span>5. State Sync: Replacing ngOnChanges with linkedSignal()</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">06</span>6. Automated Migrations using Angular CLI Schemes</div></li>
+  </ul>
+</div>
+
+<!-- ==================== CHAPTER 1 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 01</div>
+    <h2>The Architectural Shift: zone.js vs Signals Change Detection</h2>
+    <p class="ch-desc">Understand how Angular changes its internal update checks when moving from zone-based change detection to modern signal-driven change detection.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>1.1 Comparing the Change Detection Models</h3>
+      <p>In Angular 17, change detection typically depended on Zone.js. Whenever an asynchronous operation resolved, Zone.js would flag the application as dirty, prompting the template engine to re-evaluate properties across the entire component tree.</p>
+      <p>In Angular 21, the framework allows you to opt out of Zone.js entirely. Change detection is now driven directly by reactive Signal updates, which immediately notify the renderer which specific templates need to be redrawn.</p>
+
+      <div class="showdown">
+        <div class="showdown-title">⚔️ Showdown: zone.js vs Zoneless change detection</div>
+        <table class="tbl">
+          <tr><th>Feature</th><th>Zone.js (Angular 17 Default)</th><th>Zoneless Signals (Angular 21 Standard)</th></tr>
+          <tr><td>Initialization</td><td>Imports <code>zone.js</code> polyfill (adds ~15KB to browser download).</td><td>No runtime polyfill needed. Zero zone-related overhead.</td></tr>
+          <tr><td>Change Detection scope</td><td>Global. Scans components across the tree on any event.</td><td>Local. Re-evaluates only templates containing modified signals.</td></tr>
+          <tr><td>Reactives integration</td><td>Requires wrapping asynchronous operations in <code>NgZone.run()</code>.</td><td>Runs updates directly within the Signal reactivity model.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 2 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 02</div>
+    <h2>Refactoring @Input &amp; @Output to input() &amp; output()</h2>
+    <p class="ch-desc">Learn how to refactor component properties to use signal-based inputs, outputs, and models.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>2.1 Comparison of Decorators vs Signals</h3>
+      <p>Moving from decorator-based properties to signals makes component inputs read-only, which prevents accidental bugs where a component directly mutates its own inputs.</p>
+
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">refactoring-inputs.ts</span></div>
+        <pre><span class="cmt">// ==================== ANGULAR 17 DECORATORS ====================</span>
+<span class="kw">import</span> { Component, Input, Output, EventEmitter } <span class="kw">from</span> '@angular/core';
+
+@Component({
+  template: '&lt;p&gt;{{ value }}&lt;/p&gt;'
+})
+<span class="kw">export class</span> <span class="cls">OldComponent</span> {
+  @Input() value: <span class="kw">string</span> <span class="op">=</span> '';
+  @Output() trigger <span class="op">=</span> <span class="kw">new</span> <span class="fn">EventEmitter</span>&lt;<span class="kw">void</span>&gt;();
+}
+
+<span class="cmt">// ==================== ANGULAR 21 SIGNALS ====================</span>
+<span class="kw">import</span> { Component, input, output } <span class="kw">from</span> '@angular/core';
+
+@Component({
+  template: '&lt;p&gt;{{ value() }}&lt;/p&gt;'
+})
+<span class="kw">export class</span> <span class="cls">NewComponent</span> {
+  value <span class="op">=</span> <span class="fn">input</span>&lt;<span class="kw">string</span>&gt;('');
+  trigger <span class="op">=</span> <span class="fn">output</span>&lt;<span class="kw">void</span>&gt;();
+}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 3 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 03</div>
+    <h2>Query Upgrades: @ViewChild to viewChild()</h2>
+    <p class="ch-desc">Learn how to refactor component and element queries to use modern signal-based queries.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>3.1 Query Refactoring</h3>
+      <p>Signal queries (like <code>viewChild()</code>) return a read-only signal containing the query result, replacing older decorator-based queries (like <code>@ViewChild</code>) that required lifecycle hook checks (like <code>ngAfterViewInit</code>).</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">refactoring-queries.ts</span></div>
+        <pre><span class="cmt">// ==================== ANGULAR 17 VIEWCHILD ====================</span>
+<span class="kw">import</span> { Component, ViewChild, ElementRef, AfterViewInit } <span class="kw">from</span> '@angular/core';
+
+@Component({
+  template: '&lt;div #box&gt;&lt;/div&gt;'
+})
+<span class="kw">export class</span> <span class="cls">OldQueryComponent</span> <span class="kw">implements</span> <span class="cls">AfterViewInit</span> {
+  @ViewChild('box') box!: <span class="cls">ElementRef</span>&lt;<span class="cls">HTMLDivElement</span>&gt;;
+
+  <span class="fn">ngAfterViewInit</span>() {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">this</span>.box.nativeElement);
+  }
+}
+
+<span class="cmt">// ==================== ANGULAR 21 SIGNAL QUERIES ====================</span>
+<span class="kw">import</span> { Component, viewChild, ElementRef, effect } <span class="kw">from</span> '@angular/core';
+
+@Component({
+  template: '&lt;div #box&gt;&lt;/div&gt;'
+})
+<span class="kw">export class</span> <span class="cls">NewQueryComponent</span> {
+  box <span class="op">=</span> viewChild.required&lt;<span class="cls">ElementRef</span>&lt;<span class="cls">HTMLDivElement</span>&gt;&gt;('box');
+
+  <span class="fn">constructor</span>() {
+    <span class="fn">effect</span>(() <span class="op">=&gt;</span> {
+      <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">this</span>.box().nativeElement);
+    });
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 4 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 04</div>
+    <h2>Replacing the async pipe with resource()</h2>
+    <p class="ch-desc">Learn how to refactor templates from RxJS observables and the async pipe to the new signal-based Resource API.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>4.1 Simplifying Asynchronous Data Fetching</h3>
+      <p>In older Angular versions, fetching asynchronous data required setting up RxJS Observables and subscribing to them in the template using the <code>async</code> pipe. Angular 21 simplifies this by managing async data fetching states directly through the resource() API.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">async-pipe-vs-resource.ts</span></div>
+        <pre><span class="cmt">// ==================== ANGULAR 17 RxJS + ASYNC PIPE ====================</span>
+<span class="kw">import</span> { Component } <span class="kw">from</span> '@angular/core';
+<span class="kw">import</span> { HttpClient } <span class="kw">from</span> '@angular/common/http';
+<span class="kw">import</span> { Observable } <span class="kw">from</span> 'rxjs';
+
+@Component({
+  template: '&lt;p&gt;{{ (data$ | async)?.name }}&lt;/p&gt;'
+})
+<span class="kw">export class</span> <span class="cls">OldDataComponent</span> {
+  data$: <span class="cls">Observable</span>&lt;<span class="kw">any</span>&gt;;
+  <span class="fn">constructor</span>(<span class="kw">private</span> <span class="vr">http</span>: <span class="cls">HttpClient</span>) {
+    <span class="kw">this</span>.data$ <span class="op">=</span> <span class="kw">this</span>.http.<span class="fn">get</span>('https://api.store.com/info');
+  }
+}
+
+<span class="cmt">// ==================== ANGULAR 21 RESOURCE API ====================</span>
+<span class="kw">import</span> { Component, resource } <span class="kw">from</span> '@angular/core';
+
+@Component({
+  template: '&lt;p&gt;{{ info.value()?.name }}&lt;/p&gt;'
+})
+<span class="kw">export class</span> <span class="cls">NewDataComponent</span> {
+  info <span class="op">=</span> <span class="fn">resource</span>({
+    loader: <span class="kw">async</span> () <span class="op">=&gt;</span> {
+      <span class="kw">const</span> <span class="vr">res</span> <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>('https://api.store.com/info');
+      <span class="kw">return</span> <span class="vr">res</span>.<span class="fn">json</span>();
+    }
+  });
+}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 5 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 05</div>
+    <h2>State Sync: Replacing ngOnChanges with linkedSignal()</h2>
+    <p class="ch-desc">Learn how to refactor complex input change handling from the ngOnChanges lifecycle hook to linkedSignal().</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>5.1 Replacing Lifecycle Hooks</h3>
+      <p>Before version 21, resetting local component state when an input changed required implementing the <code>ngOnChanges</code> lifecycle hook. <code>linkedSignal()</code> replaces this lifecycle hook by managing state synchronization reactively.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">refactoring-state-sync.ts</span></div>
+        <pre><span class="cmt">// ==================== ANGULAR 17 ngOnChanges ====================</span>
+<span class="kw">import</span> { Component, Input, OnChanges, SimpleChanges } <span class="kw">from</span> '@angular/core';
+
+@Component({ })
+<span class="kw">export class</span> <span class="cls">OldSyncComponent</span> <span class="kw">implements</span> <span class="cls">OnChanges</span> {
+  @Input() userId!: <span class="kw">number</span>;
+  selectedPostId: <span class="kw">number</span> <span class="op">=</span> <span class="num">0</span>;
+
+  <span class="fn">ngOnChanges</span>(<span class="vr">changes</span>: <span class="cls">SimpleChanges</span>) {
+    <span class="kw">if</span> (<span class="vr">changes</span>['userId']) {
+      <span class="kw">this</span>.selectedPostId <span class="op">=</span> <span class="num">0</span>;
+    }
+  }
+}
+
+<span class="cmt">// ==================== ANGULAR 21 linkedSignal ====================</span>
+<span class="kw">import</span> { Component, input, linkedSignal } <span class="kw">from</span> '@angular/core';
+
+@Component({ })
+<span class="kw">export class</span> <span class="cls">NewSyncComponent</span> {
+  userId <span class="op">=</span> <span class="fn">input</span>.required&lt;<span class="kw">number</span>&gt;();
+
+  selectedPostId <span class="op">=</span> <span class="fn">linkedSignal</span>({
+    source: <span class="kw">this</span>.userId,
+    computation: () <span class="op">=&gt;</span> <span class="num">0</span>
+  });
+}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 6 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 06</div>
+    <h2>Automated Migrations using Angular CLI Schemes</h2>
+    <p class="ch-desc">Learn how to use Angular CLI migration schematics to automate control flow and standalone component refactoring.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>6.1 Migration CLI Commands</h3>
+      <p>Angular provides official migration schematics to help automate the refactoring process for your codebase.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">terminal</span></div>
+        <pre><span class="cmt"># 1. Migrate templates to the new built-in control flow syntax</span>
+ng generate @angular/core:control-flow
+
+<span class="cmt"># 2. Migrate components to standalone configuration</span>
+ng generate @angular/core:standalone
+
+<span class="cmt"># 3. Upgrade project configuration directly to the latest version</span>
+ng update @angular/core @angular/cli</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PRINT FOOTER ==================== -->
+<div class="print-cta">
+  <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+</div>
+
+</body>
+</html>

