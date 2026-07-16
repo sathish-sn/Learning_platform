@@ -5,7 +5,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development"
+    "watch": "ng build --watch --configuration development",
+    "deploy": "npm run build && wrangler deploy",
+    "preview": "npm run build && wrangler dev"
   },
   "private": true,
   "packageManager": "npm@11.12.1",
@@ -24,6 +26,7 @@
     "@angular/cli": "^21.2.7",
     "@angular/compiler-cli": "^21.2.0",
     "prettier": "^3.8.1",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.2",
+    "wrangler": "^4.111.0"
   }
 }
